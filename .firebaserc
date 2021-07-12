@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "enbag-b607e": {
+      "hosting": {
+        "enbag-web-app": [
+          "enbag-b607e"
+        ]
+      }
+    }
+  }
+}
