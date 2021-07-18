@@ -1,0 +1,12 @@
+<div class="row">
+  <div class="col-sm-12">
+    <h2>Commandes</h2>
+    <div class="list-group">
+      <button class="list-group-item" *ngFor="let order of orders"
+      (click)="onViewOrder(order.orderID)">
+        <h3 class="list-group-item-heading">Order</h3>
+        <p class="list-group-item-text">{{order.status}}</p>
+      </button>
+    </div>
+  </div>
+</div>

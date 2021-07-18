@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router, ParamMap} from "@angular/router";
+import {Subscription} from "rxjs";
+import {User} from "../../models/User.model";
 
 @Component({
   selector: 'app-signup',
@@ -10,15 +12,24 @@ import {Router} from "@angular/router";
 })
 export class SignupComponent implements OnInit {
 
+  private routeSub: Subscription;
   signUpForm: FormGroup;
   errorMessage: string;
   submitted = false;
+  location: number;
+  newUser: User;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
-              private router: Router) { }
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.routeSub = this.route.params.subscribe(params => {
+      const location = params['location'];
+      this.location = location ;
+    });
+
     this.initForm();
   }
 
@@ -54,8 +65,19 @@ export class SignupComponent implements OnInit {
       return;
     }
 
-    this.authService.createNewUser(firstName,lastName,email,password,address,postCode,city,phoneNumber).then(
+    this.newUser = new User('',firstName, lastName, email, address,
+                            postCode, city, phoneNumber, this.location.toString(), '3');
+
+    this.authService.createNewUser(this.newUser, password).then(
       () => {
+        this.authService.signIn(email, password).then(
+          () => {
+
+          },
+          (error) => {
+            this.errorMessage = error
+          }
+        )
         this.router.navigate(['/menu']);
       },
       (error) => {

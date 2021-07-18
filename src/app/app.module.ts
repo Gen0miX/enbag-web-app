@@ -12,11 +12,27 @@ import {HttpClientModule} from "@angular/common/http";
 import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { MenuComponent } from './client/menu/menu.component';
+import { HeaderComponent } from './header/header.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OrdersListComponent } from './client/orders-list/orders-list.component';
+import { SingleOrderComponent } from './client/orders-list/single-order/single-order.component';
+import {NewOrderComponent} from "./client/orders-list/new-order/new-order.component";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatInputModule} from "@angular/material/input";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
+import {MatListModule} from "@angular/material/list";
+import {MatGridListModule} from "@angular/material/grid-list";
+import {DatePipe} from "@angular/common";
+import {MyDateAdapter} from "./adapter/myDateAdapter.adapter";
 
 const appRoutes: Routes = [
-  {path: 'signin', component: SigninComponent},
-  {path: 'signup', component: SignupComponent},
+  {path: ':location/auth/signin', component: SigninComponent},
+  {path: ':location/auth/signup', component: SignupComponent},
   {path: 'menu', component: MenuComponent},
+  {path:'orders/new', component: NewOrderComponent},
+  {path: 'orders', component: OrdersListComponent},
+  {path: 'orders/view/:id', component: SingleOrderComponent},
   {path: '', redirectTo:'menu', pathMatch:'full'},
   {path:'**', redirectTo:'menu'}
 
@@ -27,7 +43,11 @@ const appRoutes: Routes = [
     AppComponent,
     SignupComponent,
     SigninComponent,
-    MenuComponent
+    MenuComponent,
+    HeaderComponent,
+    OrdersListComponent,
+    SingleOrderComponent,
+    NewOrderComponent
   ],
   imports: [
     BrowserModule,
@@ -37,9 +57,20 @@ const appRoutes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)
+    NgbModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatListModule,
+    MatGridListModule,
+    RouterModule.forRoot(appRoutes),
   ],
-  providers: [],
+  providers: [
+    DatePipe,
+    {provide: DateAdapter, useClass: MyDateAdapter}
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
