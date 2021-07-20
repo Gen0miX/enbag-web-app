@@ -1,0 +1,16 @@
+<div class="row">
+  <div class="col-xl-8">
+    <h1>Success</h1>
+    <p>Your assigned installer will confirm the date of the first appointment
+      and an e-mail will be sent to you at that time. You can see the details of
+      your order at any time in the "my orders" section.</p>
+  </div>
+  <div class="col-xl-8">
+  <h2>Overview</h2>
+  <p>Parking spot number : {{order.spotNR}}</p>
+  <p>Status : {{order.status}}</p>
+  <app-date-time [dateTimes]="order.datesTimesToPick"></app-date-time>
+</div>
+  <div class="row"></div>
+</div>
+<button class="btn btn-primary" (click)="backToMenu()">Ok</button>

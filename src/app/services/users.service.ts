@@ -48,7 +48,21 @@ export class UsersService {
       this.user = data.val();
       console.log(this.user);
     });
-    return this.user;
+  return this.user;
+ }
+
+ getUserByIdOnInit(id: string) {
+   return new Promise(
+     (resolve, reject) => {
+       this.db.database.ref('/users/'+id).once('value').then(
+         (data) => {
+           resolve(data.val());
+         }, (error) => {
+           reject(error);
+         }
+       )
+     }
+   );
  }
 
  getCurrentUserLocation(): string{

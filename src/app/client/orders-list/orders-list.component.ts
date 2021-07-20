@@ -26,7 +26,7 @@ export class OrdersListComponent implements OnInit, OnDestroy {
         console.log(this.orders);
       }
     );
-    this.orderService.getOrdersByUser();
+    this.orderService.getOrdersByInstaller();
     this.orderService.emitOrders();
   }
 

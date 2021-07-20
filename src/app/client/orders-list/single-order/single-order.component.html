@@ -1,7 +1,79 @@
-<div class="row">
-  <div class="col sm-12">
-    <h1>{{order.locationID}}</h1>
-    <h2>{{order.installeurID}}</h2>
-    <h3>{{order.status}}</h3>
+<div class="row" *ngIf="currentUser.role == '3'" id="client">
+  <h1>Order</h1>
+  <div class="row">
+    <div class="col col-sm-4">
+      <h2>Client</h2>
+      <p>{{user.firstName}} {{user.lastName}}</p>
+    </div>
+    <div class="col col-sm-4">
+      <h2>Installateur</h2>
+      <p>{{installateur.firstName}} {{installateur.lastName}}</p>
+      <h2>E-mail</h2>
+      <p>{{installateur.email}}</p>
+      <h2>Phone number</h2>
+      <p>0{{installateur.phoneNumber}}</p>
+    </div>
+    <div class="col col-sm-4">
+      <h2>Status</h2>
+      <p>{{order.status}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <h2>Location</h2>
+    <div class="col col-sm-4">
+      <h3>Name</h3>
+      <p>{{orderLocation.name}}</p>
+      <h3>Address</h3>
+      <p>{{orderLocation.address}}</p>
+    </div>
+    <div class="col col-sm-4">
+      <h3>City</h3>
+      <p>{{orderLocation.city}}</p>
+      <h3>Post code</h3>
+      <p>{{orderLocation.postCode}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <app-date-time [dateTimes]="order.datesTimesToPick"></app-date-time>
+  </div>
+  <app-make-payment *ngIf="currentUser.role == '3' && order.status == 'to pay'"></app-make-payment>
+</div>
+
+<div class="row" *ngIf="currentUser.role == '2'">
+  <h1>Order - {{user.firstName}} {{user.lastName}}</h1>
+  <div class="row">
+    <div class="col col-sm-4">
+      <h2>Client</h2>
+      <p>{{user.firstName}} {{user.lastName}}</p>
+      <h2>E-mail</h2>
+      <p>{{user.email}}</p>
+      <h2>Phone number</h2>
+      <p>0{{user.phoneNumber}}</p>
+    </div>
+    <div class="col col-sm-4">
+      <h2>Parking spot number</h2>
+      <p>{{order.spotNR}}</p>
+      <h2>Status</h2>
+      <p>{{order.status}}</p>
+    </div>
+  </div>
+  <div class="row container-fluid" *ngIf="order.status == 'new'">
+    <form [formGroup]="dateTimeForm" (ngSubmit)="onDateSubmit()">
+      <div class="col col-sm-4">
+        <mat-form-field  >
+          <mat-label>Date / Time</mat-label>
+          <mat-select formControlName="dateTimes" id="dateTimes">
+            <mat-optgroup *ngFor="let date of order.datesTimesToPick" [label]="date.date" >
+              <mat-option *ngFor="let time of date.times; let i = index" (onSelectionChange)="optionSelected($event)" [value]="date.times[i]" >
+                {{time.startTime}} - {{time.endTime}}
+              </mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col">
+        <button mat-flat-button color="primary" type="submit">Confirm date</button>
+      </div>
+    </form>
   </div>
 </div>

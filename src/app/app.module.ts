@@ -20,21 +20,30 @@ import {NewOrderComponent} from "./client/orders-list/new-order/new-order.compon
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from "@angular/material/input";
 import {MatDatepickerModule} from "@angular/material/datepicker";
-import {DateAdapter, MatNativeDateModule} from "@angular/material/core";
+import {DateAdapter, MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatListModule} from "@angular/material/list";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {DatePipe} from "@angular/common";
 import {MyDateAdapter} from "./adapter/myDateAdapter.adapter";
+import { NewOrderSuccessComponent } from './client/orders-list/new-order-success/new-order-success.component';
+import {DateTimeComponent} from "./client/date-time/date-time.component";
+import { MakePaymentComponent } from './payments/payment/make-payment/make-payment.component';
+import {AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
+import {MatSelectModule} from "@angular/material/select";
+import {MatButtonModule} from "@angular/material/button";
+
 
 const appRoutes: Routes = [
+  {path: 'auth/signin', component: SigninComponent},
   {path: ':location/auth/signin', component: SigninComponent},
   {path: ':location/auth/signup', component: SignupComponent},
-  {path: 'menu', component: MenuComponent},
-  {path:'orders/new', component: NewOrderComponent},
-  {path: 'orders', component: OrdersListComponent},
-  {path: 'orders/view/:id', component: SingleOrderComponent},
-  {path: '', redirectTo:'menu', pathMatch:'full'},
-  {path:'**', redirectTo:'menu'}
+  {path: 'menu', component: MenuComponent, canActivate: [AngularFireAuthGuard]},
+  {path:'orders/new', component: NewOrderComponent, canActivate: [AngularFireAuthGuard]},
+  {path:'orders/new/success/:id', component: NewOrderSuccessComponent, canActivate: [AngularFireAuthGuard]},
+  {path: 'orders', component: OrdersListComponent, canActivate: [AngularFireAuthGuard]},
+  {path: 'orders/view/:id', component: SingleOrderComponent, canActivate: [AngularFireAuthGuard]},
+  {path: '', redirectTo:'auth/signin', pathMatch:'full'},
+  {path:'**', redirectTo:'auth/signin'}
 
 ]
 
@@ -47,7 +56,10 @@ const appRoutes: Routes = [
     HeaderComponent,
     OrdersListComponent,
     SingleOrderComponent,
-    NewOrderComponent
+    NewOrderComponent,
+    NewOrderSuccessComponent,
+    DateTimeComponent,
+    MakePaymentComponent,
   ],
   imports: [
     BrowserModule,
@@ -64,7 +76,11 @@ const appRoutes: Routes = [
     MatInputModule,
     MatListModule,
     MatGridListModule,
-    RouterModule.forRoot(appRoutes),
+    AngularFireModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatButtonModule,
+    RouterModule.forRoot(appRoutes)
   ],
   providers: [
     DatePipe,

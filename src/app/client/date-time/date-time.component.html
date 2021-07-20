@@ -1,0 +1,15 @@
+<div class="row">
+  <div class="col-sm-12">
+    <div class="list-group">
+      <button class="list-group-item" disabled
+      *ngFor="let dateTime of dateTimes; let i = index">
+        <h3 class="list-group-item-heading">{{dateTime.date}}</h3>
+        <div class="row">
+          <div class="col" *ngFor="let time of dateTime.times">
+            <p>{{time.startTime}}<br>-<br>{{time.endTime}}</p>
+          </div>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>

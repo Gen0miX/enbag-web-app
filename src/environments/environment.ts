@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  stripKey: 'pk_test_51JEzSbGhdWutQrVkv2Wwx0lROxQXBEyhRHZanS5W0I60mOaTIw6dtSYsRwsv8jDWWn7XmmPuRwsthXgYbDLaRvPv00nkx5mbLb',
   firebaseConfig: {
     apiKey: "AIzaSyARXQziy5_w1Av-aRp57aJlLzGOE58IhQA",
     authDomain: "enbag-b607e.firebaseapp.com",

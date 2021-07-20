@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ModalDismissReasons, NgbModal, NgbActiveModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {Subscription} from "rxjs";
 
 
 @Component({
@@ -12,6 +13,7 @@ import {ModalDismissReasons, NgbModal, NgbActiveModal, NgbModalRef} from "@ng-bo
 })
 export class SigninComponent implements OnInit {
 
+  private routeSub: Subscription
   signInForm: FormGroup;
   resetPassForm: FormGroup;
   closeModalResult = '';
@@ -19,13 +21,25 @@ export class SigninComponent implements OnInit {
   errorMessageRP: string;
   submitted = false;
   resetPassSubmitted = false;
+  location: boolean;
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private modalService: NgbModal,
-              private router: Router) { }
+              private router: Router,
+              private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.routeSub = this.route.params.subscribe(params => {
+      const location = params['location'];
+      console.log(location);
+      if(location != undefined){
+        this.location = true;
+      }else {
+        this.location = false;
+      }
+    });
+
     this.initForm();
   }
 

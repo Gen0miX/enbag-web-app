@@ -1,17 +1,28 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {Form, FormArray, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {
+  Form,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormGroupDirective,
+  NgForm,
+  Validators
+} from "@angular/forms";
 import {Order} from "../../../models/Order.model";
 import {OrdersService} from "../../../services/orders.service";
 import {NgbDateStruct, NgbModule, NgbDate} from "@ng-bootstrap/ng-bootstrap";
-import {DatePipe, Time} from "@angular/common";
+import {DatePipe} from "@angular/common";
 import {MatListOption} from "@angular/material/list";
-import {DateAdapter} from "@angular/material/core";
+import {DateAdapter, ErrorStateMatcher} from "@angular/material/core";
 import {DateTime} from "../../../models/DateTime.model";
 import firebase from "firebase";
 import {User} from "../../../models/User.model";
 import {UsersService} from "../../../services/users.service";
 import {AuthService} from "../../../services/auth.service";
 import {Subscription} from "rxjs";
+import {Router} from "@angular/router";
+import {Time} from "../../../models/Time.model";
 
 @Component({
   selector: 'app-new-order',
@@ -26,33 +37,45 @@ export class NewOrderComponent implements OnInit {
   dateForm: FormGroup;
   timesSelectedForm: MatListOption[];
   dateSelected: string;
-  datesTime: DateTime [] = new Array();
+  dateTimes: DateTime [] = new Array();
   isTimeSelected: boolean = true;
+  submittedF = false;
+  submittedD = false;
+  matcher = new MyErrorStateMatcher(this.submittedD);
   installateurs: User[];
   idInstallateur: string;
   userSubscription: Subscription;
+  isDateTimeAdded = false;
   times = [{
+    value: 1,
     startTime: '08:00',
     endTime: '09:00'
   }, {
+    value: 2,
     startTime: '09:00',
     endTime: '10:00'
   }, {
+    value: 3,
     startTime: '10:00',
     endTime: '11:00'
   }, {
+    value: 4,
     startTime: '11:00',
     endTime: '12:00'
   }, {
+    value: 5,
     startTime: '13:30',
     endTime: '14:30'
   }, {
+    value: 6,
     startTime: '14:30',
     endTime: '15:30'
   }, {
+    value: 7,
     startTime: '15:30',
     endTime: '16:30'
   }, {
+    value: 8,
     startTime: '16:30',
     endTime: '17:30'
   }];
@@ -62,7 +85,8 @@ export class NewOrderComponent implements OnInit {
               private usersService: UsersService,
               private auth: AuthService,
               private dateAdapter: DateAdapter<Date>,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+              private route: Router) {
     this.dateAdapter.setLocale('en-GB');
   }
 
@@ -85,34 +109,72 @@ export class NewOrderComponent implements OnInit {
     this.dateForm = this.formBuilder.group({
       date: ['', Validators.required],
       timeList: [[]]
-    })
+    });
   }
 
-  onSubmitForm(){
-    let orderTMP = new Order('', this.auth.getCurrentUserID(), this.orderForm.get('spotNR').value,
-                              this.idInstallateur, 'new', this.usersService.getCurrentUserLocation());
-    orderTMP.datesTimesToPick = this.datesTime;
-    this.orderService.createNewOrder(orderTMP);
+  get fO() {return this.orderForm.controls;}
+  get fD() {return this.dateForm.controls;}
+
+  onSubmitForm(buttonType){
+
+    if(buttonType == "submitDate"){
+      this.submittedD = true;
+      this.matcher.setIsSubmitted(this.submittedD);
+      this.onSubmitDate();
+    }
+
+    if(buttonType == "submitForm"){
+      this.submittedF = true;
+      if(this.orderForm.invalid){
+        return;
+      }
+      if(this.dateTimes.length == 0){
+        return;
+      }
+
+      const orderID = '';
+      const userID = this.auth.getCurrentUserID();
+      const spotNR = this.orderForm.get('spotNR').value;
+      const status = 'new';
+      const userLocation = this.usersService.getCurrentUserLocation();
+
+      let orderTMP = new Order(orderID, userID, spotNR, this.idInstallateur, status, userLocation);
+      orderTMP.datesTimesToPick = this.dateTimes;
+      this.orderService.createNewOrder(orderTMP);
+      this.onViewSuccess(this.orderService.myOrderKey);
+    }
+
   }
 
 
-  onAddDates(){
+  onSubmitDate(){
+    if(this.dateForm.invalid){
+      return;
+    }
     if(this.timesSelectedForm == undefined){
       this.isTimeSelected = false;
       return;
     }else {
       this.isTimeSelected = true;
     }
-    const formValue = this.dateForm.value;
+
+    let formValue = this.dateForm.value;
+    let times: Time[] = [];
+    let dateTimes: DateTime = null;
     this.dateSelected = this.datePipe.transform(formValue['date'], 'dd/MM/yyyy');
     console.log(this.dateSelected);
     for(let time of this.timesSelectedForm){
-      let dateTimeTmp = new DateTime(this.dateSelected,
-                        time.value.startTime, time.value.endTime);
-
-      this.datesTime.push(dateTimeTmp);
+      let timeTMP = new Time(time.value.value, time.value.startTime, time.value.endTime);
+      times.push(timeTMP)
     }
+    dateTimes = new DateTime(this.dateSelected, times);
+    console.log(dateTimes);
+    this.dateTimes.push(dateTimes);
+    this.dateTimeReformat();
     this.dateForm.reset();
+    this.isDateTimeAdded = true;
+    this.submittedD = false;
+    this.matcher.setIsSubmitted(this.submittedD);
     this.timesSelectedForm = undefined;
   }
 
@@ -142,4 +204,33 @@ export class NewOrderComponent implements OnInit {
     }
   }
 
+  onViewSuccess(id: string){
+    this.route.navigate(['/orders', 'new', 'success', id]);
+  }
+
+  dateTimeReformat(){
+   this.dateTimes.sort((a,b) => parseFloat(a.date) - parseFloat(b.date));
+    for(let date of this.dateTimes){
+      date.times.sort((a,b) => (a.value) - (b.value));
+    }
+  }
+
+}
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+
+  isSubmitted: boolean
+
+  constructor(isSubmitted:boolean) {
+    this.isSubmitted = isSubmitted;
+  }
+
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = this.isSubmitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+
+  setIsSubmitted (isSubmitted:boolean){
+    this.isSubmitted = isSubmitted;
+  }
 }

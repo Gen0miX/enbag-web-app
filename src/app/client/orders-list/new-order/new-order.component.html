@@ -1,37 +1,42 @@
-<p>new order works</p>
-
 <div class="container">
-  <form [formGroup]="orderForm" (ngSubmit)="onSubmitForm()">
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmitForm('submitForm')">
     <div class="form-group">
       <label for="spotNR">Parking spot number</label>
-      <input type="number" class="form-control" id="spotNR" formControlName="spotNR">
+      <input type="number" class="form-control" id="spotNR" formControlName="spotNR"
+             [ngClass]="{'is-invalid': submittedF && fO.spotNR.errors}">
+      <div class="invalid-feedback d-block" *ngIf="submittedF && fO.spotNR.errors">
+        Parking spot number is <Strong>required</Strong>
+      </div>
     </div>
-    <div class="form-group" [formGroup]="dateForm">
-      <mat-form-field appearance="fill">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filters" formControlName="date">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <mat-selection-list #timesSelected
-                          (selectionChange)="onGroupsChange(timesSelected.selectedOptions.selected)"
-                          formControlName="timeList">
-        <mat-list-option *ngFor="let time of times" [value]="time"
-                         style="display:inline-block; width:50%;">
-          <p matLine>{{time.startTime}} <br>
-            {{time.endTime}}</p>
-        </mat-list-option>
-      </mat-selection-list>
-    </div>
-    <p class="text-danger" *ngIf="!isTimeSelected">You need to select at least one time</p>
-    <button class="btn btn-success"
-            (click)="onAddDates()" [disabled]="dateForm.invalid">Add a new date
-    </button>
-    <button class="btn btn-primary" type="submit">Create order</button>
+    <form [formGroup]="dateForm">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filters" [errorStateMatcher]="matcher" formControlName="date">
+          <mat-error *ngIf="dateForm.controls['date'].hasError('required')">
+            A date is <strong>required</strong>
+          </mat-error>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-selection-list #timesSelected
+                            (selectionChange)="onGroupsChange(timesSelected.selectedOptions.selected)"
+                            formControlName="timeList">
+          <mat-list-option *ngFor="let time of times" [value]="time"
+                           style="display:inline-block; width:50%;">
+            <p matLine>{{time.startTime}} <br>
+              {{time.endTime}}</p>
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <p class="text-danger" *ngIf="!isTimeSelected">You need to select at least one time</p>
+      <p class="text-danger" *ngIf="submittedF && !isDateTimeAdded">You need to add at least one date and time</p>
+      <button class="btn btn-success" type="button"
+              (click)="onSubmitForm('submitDate')">Add a new date
+      </button>
+    </form>
+    <button class="btn btn-primary" type="submit" >Create order</button>
   </form>
-  <mat-list *ngFor="let dateTime of datesTime; let i = index"
-            style="display:inline-block; width:50%;">
-    <mat-list-item>Date {{i}} : {{dateTime.date}}/{{dateTime.startTime}}-{{dateTime.endTime}}</mat-list-item>
-  </mat-list>
+  <app-date-time [dateTimes]="dateTimes"></app-date-time>
 </div>
 

@@ -99,10 +99,16 @@ export class AuthService {
       }
   }
 
+  getCurrentUserIDOnInit(): string {
+   this.auth.authState.subscribe(user => {
+     if(user) {return user.uid}
+     return ('NULL');
+   });
+   return ('NULL')
+  }
+
   getCurrentUserID(): string {
     return this.user.uid;
   }
-
-
 
 }

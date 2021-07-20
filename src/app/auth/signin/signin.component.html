@@ -25,7 +25,7 @@
         </div>
        <div class="col">
          <div class="container" routerLinkActive="active">
-           <button class="btn btn-primary" routerLink="../signup" type="button">Register</button>
+           <button class="btn btn-primary" routerLink="../signup" type="button" *ngIf="location">Register</button>
          </div>
        </div>
        <div class="col">
@@ -33,6 +33,7 @@
        </div>
       </div>
     </form>
+    <p class="text-info" *ngIf="!location">You need to access this page by scanning a code QR to register</p>
     <p class="text-danger">{{errorMessage}}</p>
   </div>
 </div>

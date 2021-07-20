@@ -4,6 +4,7 @@ import {Order} from "../models/Order.model";
 import {Subject} from "rxjs";
 import {AngularFireAuth} from "@angular/fire/auth";
 import {AuthService} from "./auth.service";
+import {DateTime} from "../models/DateTime.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class OrdersService {
 
   orders: Order[] = [];
   ordersSubject = new Subject<Order[]>();
+  myOrderKey: string = 'null';
 
   constructor(private db: AngularFireDatabase, private auth: AuthService) { }
 
@@ -32,6 +34,19 @@ export class OrdersService {
       });
   }
 
+  getOrdersByInstaller(){
+    var clientID = this.auth.getCurrentUserID();
+    var ref = this.db.database.ref('/orders');
+    ref.orderByChild('installeurID').equalTo(clientID).on('value', (data) => {
+      let result = [];
+      data.forEach(child => {
+        result.push(child.val());
+      });
+      this.orders = result ? result: [] ;
+      this.emitOrders();
+    });
+  }
+
   getOrdersByUser() {
     var clientID = this.auth.getCurrentUserID();
     var ref = this.db.database.ref('/orders');
@@ -44,6 +59,21 @@ export class OrdersService {
       this.emitOrders();
     });
   }
+
+  getSingleOrderByUserId(id: string){
+    return new Promise(
+      (resolve, reject) => {
+        this.db.database.ref('/orders').orderByChild('clientID').equalTo(id).once('value').then(
+          (data) => {
+            resolve(data);
+          }, (error) => {
+            reject(error);
+          }
+        )
+      }
+    )
+  }
+
 
   getSingleOrder(id: string){
     return new Promise(
@@ -61,19 +91,19 @@ export class OrdersService {
 
   createNewOrder(newOrder: Order){
     var newRef = this.db.database.ref('orders').push();
-    var newKey = newRef.key;
+    this.myOrderKey = newRef.key;
 
     var updatedData = {} ;
 
-    updatedData["orders/" + newKey] = true;
-    updatedData["orders/" +newKey] = {
-      orderID: newKey,
+    updatedData["orders/" + this.myOrderKey] = true;
+    updatedData["orders/" + this.myOrderKey] = {
+      orderID: this.myOrderKey,
       clientID: newOrder.clientID,
       spotNR: newOrder.spotNR,
       installeurID: newOrder.installeurID,
       status: newOrder.status,
       locationID: newOrder.locationID,
-      dateTime: newOrder.datesTimesToPick
+      datesTimesToPick: newOrder.datesTimesToPick
     };
     this.db.database.ref().update(updatedData, function(error){
       if(error) {
@@ -96,6 +126,22 @@ export class OrdersService {
     this.orders.splice(orderIndexToRemove, 1);
     this.saveOrders();
     this.emitOrders();
+  }
+
+  getLastOrderCreatedKey(): string{
+    return this.myOrderKey;
+  }
+
+  updateOrder(order: Order) {
+    this.db.database.ref('/orders/'+order.orderID).set({
+      orderID: order.orderID,
+      clientID: order.clientID,
+      spotNR: order.spotNR,
+      installeurID: order.installeurID,
+      status: order.status,
+      locationID: order.locationID,
+      dateTimePicked: order.dateTimePicked
+    });
   }
 
 
