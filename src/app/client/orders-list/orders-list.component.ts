@@ -34,6 +34,13 @@ export class OrdersListComponent implements OnInit, OnDestroy {
     this.router.navigate(['/orders', 'view', id]);
   }
 
+  arrayFilter(status:string): Order[]{
+    let arrayFiltered = this.orders.filter(element => {
+      return element.status == status;
+    });
+    return arrayFiltered
+  }
+
   ngOnDestroy() {
     this.ordersSubscription.unsubscribe();
   }

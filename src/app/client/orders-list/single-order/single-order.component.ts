@@ -7,11 +7,13 @@ import {AuthService} from "../../../services/auth.service";
 import {UsersService} from "../../../services/users.service";
 import {LocationService} from "../../../services/location.service";
 import {Location} from "../../../models/Location.model";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {MatOptionSelectionChange} from "@angular/material/core";
+import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
+import {ErrorStateMatcher, MatOptionSelectionChange} from "@angular/material/core";
 import {DateTime} from "../../../models/DateTime.model";
 import {Time} from "../../../models/Time.model";
 import {EmailService} from "../../../services/email.service";
+import {MyErrorStateMatcher} from "../../matcher/MyErrorStateMatcher.matcher";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-single-order',
@@ -27,6 +29,42 @@ export class SingleOrderComponent implements OnInit {
   installateur: User;
   orderLocation: Location;
   dateTimeForm: FormGroup;
+  dateForm: FormGroup;
+  isSubmitted = false;
+  matcher = new MyErrorStateMatcher(this.isSubmitted);
+  times = [{
+    value: 1,
+    startTime: '08:00',
+    endTime: '09:00'
+  }, {
+    value: 2,
+    startTime: '09:00',
+    endTime: '10:00'
+  }, {
+    value: 3,
+    startTime: '10:00',
+    endTime: '11:00'
+  }, {
+    value: 4,
+    startTime: '11:00',
+    endTime: '12:00'
+  }, {
+    value: 5,
+    startTime: '13:30',
+    endTime: '14:30'
+  }, {
+    value: 6,
+    startTime: '14:30',
+    endTime: '15:30'
+  }, {
+    value: 7,
+    startTime: '15:30',
+    endTime: '16:30'
+  }, {
+    value: 8,
+    startTime: '16:30',
+    endTime: '17:30'
+  }];
 
   constructor(private route: ActivatedRoute,
               private orderSrv: OrdersService,
@@ -35,7 +73,8 @@ export class SingleOrderComponent implements OnInit {
               private userSrv: UsersService,
               private locationSrv: LocationService,
               private formBuilder: FormBuilder,
-              private emailSrv: EmailService) { }
+              private emailSrv: EmailService,
+              private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.order = new Order('', '', 0, '', '', '');
@@ -43,6 +82,8 @@ export class SingleOrderComponent implements OnInit {
     this.orderSrv.getSingleOrder(id).then(
       (order: Order) => {
         this.order = order;
+        console.log('datesTime:'+order.datesTimesToPick);
+        console.log(order.dateTimePicked);
         console.log(this.order.datesTimesToPick);
         this.userSrv.getUserByIdOnInit(this.order.installeurID).then(
           (user: User) => {
@@ -73,7 +114,11 @@ export class SingleOrderComponent implements OnInit {
   initForm(){
     this.dateTimeForm = this.formBuilder.group({
       dateTimes:['', Validators.required]
-    })
+    });
+    this.dateForm = this.formBuilder.group({
+      date: ['', Validators.required],
+      time: ['', Validators.required]
+    });
   }
 
     onDateSubmit(){
@@ -81,7 +126,7 @@ export class SingleOrderComponent implements OnInit {
     this.order.dateTimePicked = this.dateSelected;
     this.order.status = "first appointment set"
     this.orderSrv.updateOrder(this.order);
-    this.emailSrv.sendConfirmationDate(this.order, this.user, this.installateur);
+    this.emailSrv.sendConfirmationDateFirst(this.order, this.user, this.installateur);
   }
 
   optionSelected(event: MatOptionSelectionChange){
@@ -90,4 +135,41 @@ export class SingleOrderComponent implements OnInit {
     this.dateSelected = new DateTime(event.source.group.label, timesTMP);
   }
 
+  sendDateForSecondAppointment(){
+
+    let formValue = this.dateForm.value;
+    let time: Time;
+    let date: string;
+    let dateTime: DateTime;
+
+    if(this.dateForm.invalid){
+      this.isSubmitted = true;
+      this.matcher.setIsSubmitted(this.isSubmitted);
+      return;
+    }
+    date = this.datePipe.transform(formValue['date'], 'dd/MM/yyyy');
+    time = formValue['time'][0];
+    dateTime = new DateTime(date, []);
+    dateTime.times.push(time);
+
+    this.order.dateTimePicked = dateTime;
+    this.order.status = 'second appointment set'
+    this.orderSrv.updateOrder(this.order);
+    this.isSubmitted = false;
+    this.matcher.setIsSubmitted(this.isSubmitted);
+    this.emailSrv.sendConfirmationDateSecond(this.order, this.user, this.installateur);
+  }
+
+  setPaymentStatus(){
+    this.order.status = 'waiting for payment';
+    this.orderSrv.updateOrder(this.order);
+  }
+
+  filters = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    const date = (d || new Date());
+    return day !== 0 && day !== 6 && date > new Date();
+  }
+
 }
+

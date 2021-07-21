@@ -31,12 +31,17 @@ import { MakePaymentComponent } from './payments/payment/make-payment/make-payme
 import {AngularFireAuthGuard, redirectLoggedInTo, redirectUnauthorizedTo} from "@angular/fire/auth-guard";
 import {MatSelectModule} from "@angular/material/select";
 import {MatButtonModule} from "@angular/material/button";
+import { InitiateLoginComponent } from './auth/initiate-login/initiate-login.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
 
 
 const appRoutes: Routes = [
   {path: 'auth/signin', component: SigninComponent},
   {path: ':location/auth/signin', component: SigninComponent},
   {path: ':location/auth/signup', component: SignupComponent},
+  {path: 'auth/wait', component: InitiateLoginComponent},
   {path: 'menu', component: MenuComponent, canActivate: [AngularFireAuthGuard]},
   {path:'orders/new', component: NewOrderComponent, canActivate: [AngularFireAuthGuard]},
   {path:'orders/new/success/:id', component: NewOrderSuccessComponent, canActivate: [AngularFireAuthGuard]},
@@ -60,28 +65,32 @@ const appRoutes: Routes = [
     NewOrderSuccessComponent,
     DateTimeComponent,
     MakePaymentComponent,
+    InitiateLoginComponent,
   ],
-  imports: [
-    BrowserModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    AngularFireDatabaseModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    NgbModule,
-    BrowserAnimationsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatInputModule,
-    MatListModule,
-    MatGridListModule,
-    AngularFireModule,
-    MatOptionModule,
-    MatSelectModule,
-    MatButtonModule,
-    RouterModule.forRoot(appRoutes)
-  ],
+    imports: [
+        BrowserModule,
+        AngularFireModule.initializeApp(environment.firebaseConfig),
+        AngularFireAuthModule,
+        AngularFireDatabaseModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        NgbModule,
+        BrowserAnimationsModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatInputModule,
+        MatListModule,
+        MatGridListModule,
+        AngularFireModule,
+        MatOptionModule,
+        MatSelectModule,
+        MatButtonModule,
+        RouterModule.forRoot(appRoutes),
+        MatProgressSpinnerModule,
+        MatToolbarModule,
+        MatIconModule
+    ],
   providers: [
     DatePipe,
     {provide: DateAdapter, useClass: MyDateAdapter}

@@ -1,5 +1,8 @@
-<p>menu works!</p>
-<button class="btn btn-primary" (click)="onNewOrder()" *ngIf="!isOrderCreated()">Schedule first meeting</button>
-<button class="btn btn-secondary" (click)="onOrderCreated(order.orderID)"
-            *ngFor="let order of orders">Go to order</button>
+
+<div class="child">
+  <button mat-flat-button color="primary" (click)="onNewOrder()" *ngIf="!isOrderCreated()">Schedule first meeting</button>
+  <button mat-flat-button color="primary" (click)="onOrderCreated(order.orderID)"
+          *ngFor="let order of orders">Go to order</button>
+</div>
+
 

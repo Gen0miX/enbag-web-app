@@ -1,13 +1,14 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <div class="container-fluid">
-    <a class="navbar-brand">EnBAG</a>
-  </div>
-  <ul class="nav nav-tabs">
-    <li class="nav-item" routerLinkActive="active">
+<p>
+  <mat-toolbar color="primary">
+    <span>EnBAG</span>
+    <span class="spacer"></span>
+    <span routerLinkActive="active">
+      <button mat-icon-button (click)="onSignOut()" routerLink="auth/signin">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </span>
+    <span routerLinkActive="active">
       <a routerLink="orders" class="nav-link">Orders</a>
-    </li>
-    <li class="nav-item" routerLinkActive="active">
-      <a (click)="onSignOut()" routerLink="auth/signin" class="nav-link">Log off</a>
-    </li>
-  </ul>
-</nav>
+    </span>
+  </mat-toolbar>
+</p>

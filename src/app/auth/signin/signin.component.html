@@ -1,47 +1,51 @@
-<div class="row mx-auto my-auto">
-  <div class="col-sm-8">
-    <h2>Log in</h2>
-    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">E-mail</label>
-        <input type="text" id="email" class="form-control" formControlName="email"
-               [ngClass]="{'is-invalid': submitted && f.email.errors}">
-        <div class="invalid-feedback d-block" *ngIf="submitted && f.email.errors">
-          <div *ngIf="f.email.errors.required">E-mail is required</div>
-          <div *ngIf="f.email.errors.email">E-mail is invalid</div>
+<div class="child">
+  <div class="row center">
+    <div class="col-sm-8">
+      <img src="assets/enbag-logo.svg" class="imgCenter">
+      <h1>Log in</h1>
+      <form [formGroup]="signInForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="email">E-mail</label>
+          <input type="text" id="email" class="form-control" formControlName="email"
+                 [ngClass]="{'is-invalid': submitted && f.email.errors}">
+          <div class="invalid-feedback d-block" *ngIf="submitted && f.email.errors">
+            <div *ngIf="f.email.errors.required">E-mail is required</div>
+            <div *ngIf="f.email.errors.email">E-mail is invalid</div>
+          </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" id="password" class="form-control" formControlName="password"
-               [ngClass]="{'is-invalid': submitted && f.password.errors}">
-        <div class="invalid-feedback d-block" *ngIf="submitted && f.password.errors">
-          <div *ngIf="f.password.errors.required">Password is required</div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" formControlName="password"
+                 [ngClass]="{'is-invalid': submitted && f.password.errors}">
+          <div class="invalid-feedback d-block" *ngIf="submitted && f.password.errors">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+          </div>
         </div>
-      </div>
-      <div class="row w-75 mx-auto my-auto">
-        <div class="col">
-          <button class="btn btn-primary" type="submit">Log in</button>
+        <div class="row center">
+          <div class="container center">
+            <button mat-flat-button color="primary" type="submit">Log in</button>
+            <span class="spacer"></span>
+            <button mat-flat-button color="warn" type="button" (click)="open(content)">Reset password</button>
+          </div>
+            <div class="container center" routerLinkActive="active">
+              <button mat-flat-button color="accent" routerLink="../signup" type="button" *ngIf="location">Register</button>
+            </div>
         </div>
-       <div class="col">
-         <div class="container" routerLinkActive="active">
-           <button class="btn btn-primary" routerLink="../signup" type="button" *ngIf="location">Register</button>
-         </div>
-       </div>
-       <div class="col">
-         <button class="btn btn-secondary" type="button" (click)="open(content)">Reset password</button>
-       </div>
-      </div>
-    </form>
-    <p class="text-info" *ngIf="!location">You need to access this page by scanning a code QR to register</p>
-    <p class="text-danger">{{errorMessage}}</p>
+      </form>
+      <p class="text-info" *ngIf="!location">You need to access this page by scanning a code QR to register</p>
+      <p class="text-danger">{{errorMessage}}</p>
+      <div class="footer"></div>
+    </div>
   </div>
 </div>
+
 
 <ng-template #content let-modal>
    <div class="modal-header">
      <h4 class="modal-title" id="modal-basic-title">Reset password</h4>
-     <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+     <button mat-icon-button class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+       <mat-icon>close</mat-icon>
+     </button>
    </div>
   <form [formGroup]="resetPassForm" (ngSubmit)="onSubmitPassReset()">
   <div class="modal-body">
@@ -57,8 +61,8 @@
   </div>
     <p class="text-danger" *ngIf="!frp.emailPassReset.errors">{{errorMessageRP}}</p>
   <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="modal.dismiss('Cancel click')">Cancel</button>
-    <button type="submit" class="btn btn-primary" (click)="modal.close">Confirm</button>
+    <button type="button" mat-raised-button (click)="modal.dismiss('Cancel click')">Cancel</button>
+    <button type="submit" mat-raised-button color="primary" (click)="modal.close">Confirm</button>
   </div>
   </form>
 </ng-template>

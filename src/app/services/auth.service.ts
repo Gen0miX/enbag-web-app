@@ -12,6 +12,7 @@ export class AuthService {
 
   isAuth = false;
   user: firebase.User;
+  userId: string;
 
   constructor(private auth: AngularFireAuth,
               private db: AngularFireDatabase) { }
@@ -38,6 +39,7 @@ export class AuthService {
       (resolve, reject) => {
         this.auth.createUserWithEmailAndPassword(user.email, password).then (
           (cred) => {
+            cred.user.sendEmailVerification().then();
             this.db.database.ref('users/'+cred.user.uid).set({
               id: cred.user.uid,
               firstName: user.firstName,
@@ -99,16 +101,32 @@ export class AuthService {
       }
   }
 
-  getCurrentUserIDOnInit(): string {
+/*  getCurrentUserIDOnInit(): string {
    this.auth.authState.subscribe(user => {
      if(user) {return user.uid}
      return ('NULL');
    });
    return ('NULL')
-  }
+  }*/
 
   getCurrentUserID(): string {
-    return this.user.uid;
+    return this.userId;
+  }
+
+  onAuthStateChanged() {
+    this.auth.onAuthStateChanged((user) => {
+      if(user) {
+        console.log('connected');
+        this.isAuth = true;
+        this.user = user;
+        this.userId = user.uid;
+      } else {
+        console.log('disconnected');
+        this.isAuth = false;
+        this.user = null;
+        this.userId = '';
+      }
+    });
   }
 
 }

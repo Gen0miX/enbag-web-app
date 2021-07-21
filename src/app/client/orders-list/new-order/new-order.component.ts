@@ -23,6 +23,8 @@ import {AuthService} from "../../../services/auth.service";
 import {Subscription} from "rxjs";
 import {Router} from "@angular/router";
 import {Time} from "../../../models/Time.model";
+import {MyErrorStateMatcher} from "../../matcher/MyErrorStateMatcher.matcher";
+import {EmailService} from "../../../services/email.service";
 
 @Component({
   selector: 'app-new-order',
@@ -46,6 +48,7 @@ export class NewOrderComponent implements OnInit {
   idInstallateur: string;
   userSubscription: Subscription;
   isDateTimeAdded = false;
+  installer: User;
   times = [{
     value: 1,
     startTime: '08:00',
@@ -86,7 +89,8 @@ export class NewOrderComponent implements OnInit {
               private auth: AuthService,
               private dateAdapter: DateAdapter<Date>,
               private datePipe: DatePipe,
-              private route: Router) {
+              private route: Router,
+              private emailSrv: EmailService) {
     this.dateAdapter.setLocale('en-GB');
   }
 
@@ -96,7 +100,11 @@ export class NewOrderComponent implements OnInit {
       (users: User[]) => {
         this.installateurs = users;
         this.getInstallateurId();
-        console.log("id: "+this.idInstallateur);
+        this.usersService.getUserByIdOnInit(this.idInstallateur).then(
+          (user: User) => {
+            this.installer = user;
+          }
+        );
       }
     )
     this.usersService.getInstallateurs();
@@ -141,6 +149,7 @@ export class NewOrderComponent implements OnInit {
       let orderTMP = new Order(orderID, userID, spotNR, this.idInstallateur, status, userLocation);
       orderTMP.datesTimesToPick = this.dateTimes;
       this.orderService.createNewOrder(orderTMP);
+      this.emailSrv.sendNewOrderConfirmation(orderTMP, this.installer);
       this.onViewSuccess(this.orderService.myOrderKey);
     }
 
@@ -191,7 +200,17 @@ export class NewOrderComponent implements OnInit {
   filters = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     const date = (d || new Date());
-    return day !== 0 && day !== 6 && date > new Date();
+    return day !== 0 && day !== 6 && date > new Date() && this.checkDateAdded(d) ;
+  }
+
+ checkDateAdded(d: Date): boolean {
+    let dString = this.datePipe.transform(d, 'dd/MM/yyyy')
+    for(let dateTime of this.dateTimes){
+      if(dateTime.date == dString){
+        return false;
+      }
+    }
+    return true;
   }
 
   getInstallateurId(){
@@ -215,22 +234,4 @@ export class NewOrderComponent implements OnInit {
     }
   }
 
-}
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-
-  isSubmitted: boolean
-
-  constructor(isSubmitted:boolean) {
-    this.isSubmitted = isSubmitted;
-  }
-
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = this.isSubmitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-
-  setIsSubmitted (isSubmitted:boolean){
-    this.isSubmitted = isSubmitted;
-  }
 }

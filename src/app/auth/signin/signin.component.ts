@@ -68,8 +68,7 @@ export class SigninComponent implements OnInit {
 
     this.authService.signIn(email, password).then(
       () => {
-        this.router.navigate(['/menu']);
-
+        this.router.navigate(['/auth', 'wait']);
       },
       (error) => {
         this.errorMessage = error ;

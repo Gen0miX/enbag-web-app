@@ -1,0 +1,57 @@
+.center {
+  display: flex;
+  justify-content: center;
+}
+
+.mat-flat-button {
+  width: min(130px);
+  margin: 2% 5% 0 0;
+}
+
+.mat-raised-button {
+  width: min(130px);
+  margin: 2% 5% 0 0;
+}
+
+p {
+  text-align: center;
+}
+
+.form-group {
+  width: 80%;
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+label {
+  display: block;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.imgCenter {
+  display:block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.modal-header {
+  background-color: #a81524;
+}
+
+.modal-footer {
+  align-content: center;
+}
+
+.modal-title {
+  margin: 0 0 0 0;
+  display:block;
+  text-align: center;
+  color: white;
+}

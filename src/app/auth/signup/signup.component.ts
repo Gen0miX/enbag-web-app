@@ -4,6 +4,7 @@ import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router, ParamMap} from "@angular/router";
 import {Subscription} from "rxjs";
 import {User} from "../../models/User.model";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,8 @@ export class SignupComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private _location: Location) { }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
@@ -79,12 +81,16 @@ export class SignupComponent implements OnInit {
             this.errorMessage = error
           }
         )
-        this.router.navigate(['/menu']);
+        this.router.navigate(['/auth', 'wait']);
       },
       (error) => {
         this.errorMessage = error ;
       }
     );
+  }
+
+  cancelClick(){
+    this._location.back();
   }
 
 MustMatch(controlName: string, matchingControlName: string) {
