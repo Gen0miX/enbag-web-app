@@ -34,7 +34,6 @@ export class MenuComponent implements OnInit {
   ngOnInit(): void {
    this.afAuth.authState.subscribe(user => {
      if (user) {this.userId = user.uid}
-     console.log(this.userId);
      this.ordersSubscription = this.ordersService.ordersSubject.subscribe(
        (orders: Order[]) => {
          this.orders = orders;

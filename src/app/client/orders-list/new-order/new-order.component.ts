@@ -39,6 +39,7 @@ export class NewOrderComponent implements OnInit {
   dateForm: FormGroup;
   timesSelectedForm: MatListOption[];
   dateSelected: string;
+  orderNumber: number = 10000;
   dateTimes: DateTime [] = new Array();
   isTimeSelected: boolean = true;
   submittedF = false;
@@ -108,11 +109,13 @@ export class NewOrderComponent implements OnInit {
       }
     )
     this.usersService.getInstallateurs();
+    this.newOrderNumber();
   }
 
   initForm(){
     this.orderForm = this.formBuilder.group({
       spotNR: ['', Validators.required],
+      isOwner: ['', Validators.requiredTrue]
     });
     this.dateForm = this.formBuilder.group({
       date: ['', Validators.required],
@@ -140,15 +143,17 @@ export class NewOrderComponent implements OnInit {
         return;
       }
 
+      const orderNumber = this.orderNumber;
       const orderID = '';
       const userID = this.auth.getCurrentUserID();
       const spotNR = this.orderForm.get('spotNR').value;
       const status = 'new';
       const userLocation = this.usersService.getCurrentUserLocation();
 
-      let orderTMP = new Order(orderID, userID, spotNR, this.idInstallateur, status, userLocation);
+      let orderTMP = new Order(orderID, orderNumber, userID, spotNR, this.idInstallateur, status, userLocation);
       orderTMP.datesTimesToPick = this.dateTimes;
       this.orderService.createNewOrder(orderTMP);
+      this.orderService.updateOrderNumber(this.orderNumber);
       this.emailSrv.sendNewOrderConfirmation(orderTMP, this.installer);
       this.onViewSuccess(this.orderService.myOrderKey);
     }
@@ -171,13 +176,11 @@ export class NewOrderComponent implements OnInit {
     let times: Time[] = [];
     let dateTimes: DateTime = null;
     this.dateSelected = this.datePipe.transform(formValue['date'], 'dd/MM/yyyy');
-    console.log(this.dateSelected);
     for(let time of this.timesSelectedForm){
       let timeTMP = new Time(time.value.value, time.value.startTime, time.value.endTime);
       times.push(timeTMP)
     }
     dateTimes = new DateTime(this.dateSelected, times);
-    console.log(dateTimes);
     this.dateTimes.push(dateTimes);
     this.dateTimeReformat();
     this.dateForm.reset();
@@ -194,7 +197,6 @@ export class NewOrderComponent implements OnInit {
       this.isTimeSelected = true;
     }
     this.timesSelectedForm = options;
-    console.log(this.timesSelectedForm.map(o => o.value));
   }
 
   filters = (d: Date | null): boolean => {
@@ -232,6 +234,15 @@ export class NewOrderComponent implements OnInit {
     for(let date of this.dateTimes){
       date.times.sort((a,b) => (a.value) - (b.value));
     }
+  }
+
+  newOrderNumber() {
+    this.orderService.getOrderNumber().then(
+      (number: number) => {
+        this.orderNumber = number;
+        this.orderNumber = this.orderNumber+1;
+      }
+    );
   }
 
 }

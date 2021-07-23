@@ -32,7 +32,6 @@ export class SigninComponent implements OnInit {
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       const location = params['location'];
-      console.log(location);
       if(location != undefined){
         this.location = true;
       }else {
@@ -83,7 +82,6 @@ export class SigninComponent implements OnInit {
       }, (reason) => {
         this.errorMessageRP = null ;
         this.resetPassSubmitted = false;
-        console.log(this.closeModalResult = `Dismissed ${this.getDismissReason(reason)}`);
       }
     );
   }

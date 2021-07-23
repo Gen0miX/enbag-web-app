@@ -116,12 +116,10 @@ export class AuthService {
   onAuthStateChanged() {
     this.auth.onAuthStateChanged((user) => {
       if(user) {
-        console.log('connected');
         this.isAuth = true;
         this.user = user;
         this.userId = user.uid;
       } else {
-        console.log('disconnected');
         this.isAuth = false;
         this.user = null;
         this.userId = '';

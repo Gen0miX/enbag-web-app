@@ -19,13 +19,12 @@ export class NewOrderSuccessComponent implements OnInit {
               private locationStrategy: LocationStrategy) { }
 
   ngOnInit(): void {
-    this.order = new Order('', '', 0, '', '', '');
+    this.order = new Order('',0, '', 0, '', '', '');
     const id = this.route.snapshot.params['id'];
     this.orderService.getSingleOrder(id).then(
       (order: Order) => {
         this.order = order;
         this.order.datesTimesToPick = order.datesTimesToPick;
-        console.log(this.order);
       }
     );
     this.preventBackButton();

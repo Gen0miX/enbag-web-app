@@ -5,6 +5,9 @@ import firebase from "firebase";
 import {UsersService} from "../../services/users.service";
 import {User} from "../../models/User.model";
 import {Router} from "@angular/router";
+import {Order} from "../../models/Order.model";
+import {Subscription} from "rxjs";
+import {OrdersService} from "../../services/orders.service";
 
 @Component({
   selector: 'app-initiate-login',
@@ -12,15 +15,16 @@ import {Router} from "@angular/router";
   styleUrls: ['./initiate-login.component.scss']
 })
 export class InitiateLoginComponent implements OnInit {
+  user: User;
+  orders: Order[];
 
   constructor(private auth: AuthService,
               private userSrv: UsersService,
               private router: Router) {
   }
 
-  user: User;
-
   ngOnInit(): void {
+
     this.userSrv.getUserByIdOnInit(this.auth.getCurrentUserID()).then(
       (user: User) => {
         this.user = user;

@@ -26,7 +26,6 @@ export class UsersService {
     var ref = this.db.database.ref('/users');
     ref.orderByChild("email").equalTo('j0naas_14@hotmail.com').on('value', (data) => {
       this.users = data.val() ? data.val() : [];
-      console.log(this.users);
     });
   }
 
@@ -39,14 +38,12 @@ export class UsersService {
     });
     this.users = result ? result: [];
     this.emitUsers();
-    console.log(this.users);
   });
  }
 
  getUserById(id: string): User {
     this.db.database.ref('/users/'+id).once('value', (data) => {
       this.user = data.val();
-      console.log(this.user);
     });
   return this.user;
  }

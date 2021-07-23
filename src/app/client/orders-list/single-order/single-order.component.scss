@@ -1,0 +1,31 @@
+.mat-card {
+
+}
+
+h1 {
+  text-align: center;
+}
+
+.content {
+  margin: auto;
+}
+
+p.thick {
+  font-weight: bold;
+}
+
+
+dl>dt {
+  float: left;
+  width: 150px;
+  overflow: hidden;
+  clear: left;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+dl>dd {
+  margin-left: 160px;
+}

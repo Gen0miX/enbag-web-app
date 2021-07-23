@@ -1,21 +1,19 @@
 <div class="row">
     <h2>Orders</h2>
     <mat-list>
-      <div class="list-group">
         <div mat-subheader>New</div>
         <mat-action-list *ngFor="let order of arrayFilter('new')">
           <button mat-list-item (click)="onViewOrder(order.orderID)">
-            <h3 matLine>Order</h3>
+            <h3 matLine>Order - {{order.orderNumber}}</h3>
             <p matLine>{{order.status}}</p>
           </button>
         </mat-action-list>
-      </div>
     </mat-list>
     <mat-list>
       <div mat-subheader>First appointment</div>
       <mat-action-list *ngFor="let order of arrayFilter('first appointment set')">
         <button mat-list-item (click)="onViewOrder(order.orderID)">
-          <h3 matLine>Order</h3>
+          <h3 matLine>Order - {{order.orderNumber}}</h3>
           <p matLine>{{order.status}}</p>
         </button>
       </mat-action-list>
@@ -24,8 +22,8 @@
     <div mat-subheader>Second appointment</div>
     <mat-action-list *ngFor="let order of arrayFilter('second appointment set')">
       <button mat-list-item (click)="onViewOrder(order.orderID)">
-        <h3 class="list-group-item-heading">Order</h3>
-        <p class="list-group-item-text">{{order.status}}</p>
+        <h3 matLine>Order - {{order.orderNumber}}</h3>
+        <p matLine>{{order.status}}</p>
       </button>
     </mat-action-list>
   </mat-list>
@@ -33,8 +31,8 @@
     <div mat-subheader>Waiting for payment</div>
     <mat-action-list *ngFor="let order of arrayFilter('waiting for payment')">
       <button mat-list-item (click)="onViewOrder(order.orderID)">
-        <h3 class="list-group-item-heading">Order</h3>
-        <p class="list-group-item-text">{{order.status}}</p>
+        <h3 matLine>Order - {{order.orderNumber}}</h3>
+        <p matLine>{{order.status}}</p>
       </button>
     </mat-action-list>
   </mat-list>
@@ -42,8 +40,8 @@
     <div mat-subheader>Ready to activate</div>
     <mat-action-list *ngFor="let order of arrayFilter('ready to activate')">
       <button mat-list-item (click)="onViewOrder(order.orderID)">
-        <h3 class="list-group-item-heading">Order</h3>
-        <p class="list-group-item-text">{{order.status}}</p>
+        <h3 matLine>Order - {{order.orderNumber}}</h3>
+        <p matLine>{{order.status}}</p>
       </button>
     </mat-action-list>
   </mat-list>
@@ -51,25 +49,9 @@
     <div mat-subheader>Closed</div>
     <mat-action-list *ngFor="let order of arrayFilter('closed')">
       <button mat-list-item (click)="onViewOrder(order.orderID)">
-        <h3 class="list-group-item-heading">Order</h3>
-        <p class="list-group-item-text">{{order.status}}</p>
+        <h3 matLine>Order - {{order.orderNumber}}</h3>
+        <p matLine>{{order.status}}</p>
       </button>
     </mat-action-list>
   </mat-list>
-
-
-    <!--   <mat-list>
-         <div mat-subheader *ngFor="let order of orders">{{order.status}}<mat-list-item>
-             <div mat-line>Order</div>
-             <div mat-line>{{order.orderID}}</div>
-           </mat-list-item>
-         </div>
-       </mat-list>
-       <div class="list-group">
-         <button class="list-group-item" *ngFor="let order of orders"
-         (click)="onViewOrder(order.orderID)">
-           <h3 class="list-group-item-heading">Order</h3>
-           <p class="list-group-item-text">{{order.status}}</p>
-         </button>
-       </div>-->
 </div>

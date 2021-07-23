@@ -28,7 +28,6 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
-      console.log(params);
       const location = params['location'];
       this.location = location ;
     });

@@ -98,6 +98,7 @@ export class OrdersService {
     updatedData["orders/" + this.myOrderKey] = true;
     updatedData["orders/" + this.myOrderKey] = {
       orderID: this.myOrderKey,
+      orderNumber: newOrder.orderNumber,
       clientID: newOrder.clientID,
       spotNR: newOrder.spotNR,
       installeurID: newOrder.installeurID,
@@ -107,7 +108,6 @@ export class OrdersService {
     };
     this.db.database.ref().update(updatedData, function(error){
       if(error) {
-        console.log("Error updating data :", error);
       }
     });
     this.orders.push(newOrder);
@@ -135,6 +135,7 @@ export class OrdersService {
   updateOrder(order: Order) {
     this.db.database.ref('/orders/'+order.orderID).set({
       orderID: order.orderID,
+      orderNumber: order.orderNumber,
       clientID: order.clientID,
       spotNR: order.spotNR,
       installeurID: order.installeurID,
@@ -144,5 +145,22 @@ export class OrdersService {
     });
   }
 
+  getOrderNumber() {
+    return new Promise(
+      (resolve, reject) => {
+        this.db.database.ref('/orderNumber').once('value').then(
+          (data) => {
+            resolve(data.val());
+          }, (error) => {
+            reject(error);
+          }
+        );
+      }
+    );
+  }
+
+  updateOrderNumber(number: Number) {
+    this.db.database.ref('/orderNumber').set(number);
+  }
 
 }

@@ -1,8 +1,40 @@
 
-<div class="child">
-  <button mat-flat-button color="primary" (click)="onNewOrder()" *ngIf="!isOrderCreated()">Schedule first meeting</button>
-  <button mat-flat-button color="primary" (click)="onOrderCreated(order.orderID)"
-          *ngFor="let order of orders">Go to order</button>
-</div>
+  <div fxLayout="row wrap">
+    <mat-card>
+      <mat-card-content>
+        <div fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="32px">
+          <div fxLayout="row" fxFlex="50%" >
+            <div class="myFlexedImage" fxFlex="100 100 100%">
+              <img mat-card-image src="assets/wb_price.png" class="img">
+            </div>
+          </div>
+          <div fxLayout="row wrap" fxFlex="50%">
+            <div fxLayout="row" fxFlex="100%" fxLayoutAlign="center">
+              <h2>E-car charging</h2>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutAlign="center">
+              <mat-list>
+                <mat-list-item>Option to purchase / rent a wallbox</mat-list-item>
+                <mat-list-item>Maintenance and service</mat-list-item>
+                <mat-list-item>Personal RFID tag</mat-list-item>
+                <mat-list-item>Mobile App</mat-list-item>
+                <mat-list-item>Static or dynamic load management</mat-list-item>
+                <mat-list-item>Securing subsidies through EnBAG</mat-list-item>
+              </mat-list>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutAlign="center">
+              <button mat-flat-button color="primary" (click)="onNewOrder()" *ngIf="!isOrderCreated()">Schedule first meeting</button>
+              <button mat-flat-button color="primary" (click)="onOrderCreated(order.orderID)"
+                      *ngFor="let order of orders">Go to order</button>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+
+
+
 
 

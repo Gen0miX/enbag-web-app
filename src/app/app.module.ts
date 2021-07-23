@@ -35,6 +35,11 @@ import { InitiateLoginComponent } from './auth/initiate-login/initiate-login.com
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatCardModule} from "@angular/material/card";
+import {FlexLayoutModule} from "@angular/flex-layout";
+import {MatTableModule} from "@angular/material/table";
+import {ThemingApiMigration} from "@angular/material/schematics/ng-update/migrations/theming-api-v12/theming-api-migration";
 
 
 const appRoutes: Routes = [
@@ -67,30 +72,34 @@ const appRoutes: Routes = [
     MakePaymentComponent,
     InitiateLoginComponent,
   ],
-    imports: [
-        BrowserModule,
-        AngularFireModule.initializeApp(environment.firebaseConfig),
-        AngularFireAuthModule,
-        AngularFireDatabaseModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        NgbModule,
-        BrowserAnimationsModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatInputModule,
-        MatListModule,
-        MatGridListModule,
-        AngularFireModule,
-        MatOptionModule,
-        MatSelectModule,
-        MatButtonModule,
-        RouterModule.forRoot(appRoutes),
-        MatProgressSpinnerModule,
-        MatToolbarModule,
-        MatIconModule
-    ],
+  imports: [
+    BrowserModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgbModule,
+    BrowserAnimationsModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatInputModule,
+    MatListModule,
+    MatGridListModule,
+    AngularFireModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatButtonModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatCardModule,
+    FlexLayoutModule,
+    MatTableModule,
+    RouterModule.forRoot(appRoutes)
+  ],
   providers: [
     DatePipe,
     {provide: DateAdapter, useClass: MyDateAdapter}

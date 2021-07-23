@@ -1,5 +1,5 @@
 <p>
-  <mat-toolbar color="primary">
+  <mat-toolbar color="primary" *ngIf="user.role == '3'">
     <span>EnBAG</span>
     <span class="spacer"></span>
     <span routerLinkActive="active">
@@ -7,8 +7,23 @@
         <mat-icon>logout</mat-icon>
       </button>
     </span>
+  </mat-toolbar>
+  <mat-toolbar color="accent" *ngIf="user.role == '2'">
+    <span>EnBAG</span>
+    <span class="spacer"></span>
     <span routerLinkActive="active">
-      <a routerLink="orders" class="nav-link">Orders</a>
+      <button mat-icon-button (click)="onSignOut()" routerLink="auth/signin">
+        <mat-icon>logout</mat-icon>
+      </button>
+    </span>
+  </mat-toolbar>
+  <mat-toolbar class="admin" *ngIf="user.role == '1'">
+    <span>EnBAG</span>
+    <span class="spacer"></span>
+    <span routerLinkActive="active">
+      <button mat-icon-button (click)="onSignOut()" routerLink="auth/signin">
+        <mat-icon>logout</mat-icon>
+      </button>
     </span>
   </mat-toolbar>
 </p>

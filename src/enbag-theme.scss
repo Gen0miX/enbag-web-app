@@ -1,32 +1,32 @@
 /**
 * Generated theme by Material Theme Generator
 * https://materialtheme.arcsine.dev
-* Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48I2E4MTUyNCIsIj9lcjwjZTViOWJkIiwiO2VyPCM4ZDBjMTZ$LCIlPmBePCMwMDljZGQiLCI~ZXI8I2IzZTFmNSIsIjtlcjwjMDA4MGNmfiwid2Fybj5gXjwjZTFiMjEwIiwiP2VyPCNmNmU4YjciLCI7ZXI8I2Q1OTkwOX4sIj9UZXh0PCMwMDAwMDAiLCI~PTwjZmFmYWZhIiwiO1RleHQ8I2ZmZmZmZiIsIjs9PCMyYzJjMmN$LCJmb250cz5bYEA8KC00IiwiZmFtaWx5PExhdG9$LGBAPCgtMyIsImZhbWlseTxMYXRvfixgQDwoLTIiLCJmYW1pbHk8TGF0b34sYEA8KC0xIiwiZmFtaWx5PExhdG9$LGBAPGhlYWRsaW5lIiwiZmFtaWx5PExhdG9$LGBAPHRpdGxlIiwiZmFtaWx5PExhdG9$LGBAPHN1YiktMiIsImZhbWlseTxMYXRvfixgQDxzdWIpLTEiLCJmYW1pbHk8TGF0b34sYEA8Ym9keS0yIiwiZmFtaWx5PExhdG9$LGBAPGJvZHktMSIsImZhbWlseTxMYXRvfixgQDxidXR0b24iLCJmYW1pbHk8TGF0b34sYEA8Y2FwdGlvbiIsImZhbWlseTxMYXRvfixgQDxpbnB1dCIsImZhbWlseTxMYXRvIiwic2l6ZT5udWxsfV0sImljb25zPEZpbGxlZCIsIj9uZXNzPnRydWUsInZlcnNpb24$MTJ9
+* Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48I2E4MTUyNCIsIj9lcjwjZTViOWJkIiwiO2VyPCM4ZDBjMTZ$LCIlPmBePCMwMDljZGQiLCI~ZXI8I2IzZTFmNSIsIjtlcjwjMDA4MGNmfiwid2Fybj5gXjwjZmYyMzIzIiwiP2VyPCNmZmJkYmQiLCI7ZXI8I2ZmMTUxNX4sIj9UZXh0PCMwMDAwMDAiLCI~PTwjZmZmZmZmIiwiO1RleHQ8I2ZmZmZmZiIsIjs9PCMwMDAwMDB$LCJmb250cz5bYEA8KC00fixgQDwoLTN$LGBAPCgtMn4sYEA8KC0xfixgQDxoZWFkbGluZX4sYEA8dGl0bGV$LGBAPHN1YiktMn4sYEA8c3ViKS0xfixgQDxib2R5LTJ$LGBAPGJvZHktMX4sYEA8YnV0dG9ufixgQDxjYXB0aW9ufixgQDxpbnB1dCIsInNpemU$bnVsbH1dLCJpY29uczxGaWxsZWQiLCI~bmVzcz50cnVlLCJ2ZXJzaW9uPjExfQ==
 */
-
 @use '~@angular/material' as mat;
+@import '~@angular/material/theming';
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 
 // Fonts
 @import 'https://fonts.googleapis.com/css?family=Material+Icons';
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,500');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
-$fontConfig: (
-  display-4: mat.define-typography-level(112px, 112px, 300, 'Lato', -0.0134em),
-  display-3: mat.define-typography-level(56px, 56px, 400, 'Lato', -0.0089em),
-  display-2: mat.define-typography-level(45px, 48px, 400, 'Lato', 0.0000em),
-  display-1: mat.define-typography-level(34px, 40px, 400, 'Lato', 0.0074em),
-  headline: mat.define-typography-level(24px, 32px, 400, 'Lato', 0.0000em),
-  title: mat.define-typography-level(20px, 32px, 500, 'Lato', 0.0075em),
-  subheading-2: mat.define-typography-level(16px, 28px, 400, 'Lato', 0.0094em),
-  subheading-1: mat.define-typography-level(15px, 24px, 500, 'Lato', 0.0067em),
-  body-2: mat.define-typography-level(14px, 24px, 500, 'Lato', 0.0179em),
-  body-1: mat.define-typography-level(14px, 20px, 400, 'Lato', 0.0179em),
-  button: mat.define-typography-level(14px, 14px, 500, 'Lato', 0.0893em),
-  caption: mat.define-typography-level(12px, 20px, 400, 'Lato', 0.0333em),
-  input: mat.define-typography-level(inherit, 1.125, 400, 'Lato', 1.5px)
+$fontConfig: mat.define-typography-config(
+  $display-4: mat.define-typography-level(112px, 112px, 300, 'Roboto', -0.0134em),
+  $display-3: mat.define-typography-level(56px, 56px, 400, 'Roboto', -0.0089em),
+  $display-2: mat.define-typography-level(45px, 48px, 400, 'Roboto', 0.0000em),
+  $display-1: mat.define-typography-level(34px, 40px, 400, 'Roboto', 0.0074em),
+  $headline: mat.define-typography-level(24px, 32px, 400, 'Roboto', 0.0000em),
+  $title: mat.define-typography-level(20px, 32px, 500, 'Roboto', 0.0075em),
+  $subheading-2: mat.define-typography-level(16px, 28px, 400, 'Roboto', 0.0094em),
+  $subheading-1: mat.define-typography-level(15px, 24px, 500, 'Roboto', 0.0067em),
+  $body-2: mat.define-typography-level(14px, 24px, 500, 'Roboto', 0.0179em),
+  $body-1: mat.define-typography-level(14px, 20px, 400, 'Roboto', 0.0179em),
+  $button: mat.define-typography-level(14px, 14px, 500, 'Roboto', 0.0893em),
+  $caption: mat.define-typography-level(12px, 20px, 400, 'Roboto', 0.0333em),
+  $input: mat.define-typography-level(inherit, 1.125, 400, 'Roboto', 1.5px)
 );
 
 // Foreground Elements
@@ -87,15 +87,15 @@ $mat-dark-theme-foreground: (
 
 // Background config
 // Light bg
-$light-background:    #fafafa;
+$light-background:    #ffffff;
 $light-bg-darker-5:   darken($light-background, 5%);
 $light-bg-darker-10:  darken($light-background, 10%);
 $light-bg-darker-20:  darken($light-background, 20%);
 $light-bg-darker-30:  darken($light-background, 30%);
 $light-bg-lighter-5:  lighten($light-background, 5%);
-$dark-bg-tooltip:     lighten(#2c2c2c, 20%);
-$dark-bg-alpha-4:     rgba(#2c2c2c, 0.04);
-$dark-bg-alpha-12:    rgba(#2c2c2c, 0.12);
+$dark-bg-tooltip:     lighten(#000000, 20%);
+$dark-bg-alpha-4:     rgba(#000000, 0.04);
+$dark-bg-alpha-12:    rgba(#000000, 0.12);
 
 $mat-light-theme-background: (
   background:               $light-background,
@@ -116,13 +116,13 @@ $mat-light-theme-background: (
 );
 
 // Dark bg
-$dark-background:     #2c2c2c;
+$dark-background:     #000000;
 $dark-bg-lighter-5:   lighten($dark-background, 5%);
 $dark-bg-lighter-10:  lighten($dark-background, 10%);
 $dark-bg-lighter-20:  lighten($dark-background, 20%);
 $dark-bg-lighter-30:  lighten($dark-background, 30%);
-$light-bg-alpha-4:    rgba(#fafafa, 0.04);
-$light-bg-alpha-12:   rgba(#fafafa, 0.12);
+$light-bg-alpha-4:    rgba(#ffffff, 0.04);
+$light-bg-alpha-12:   rgba(#ffffff, 0.12);
 
 // Background palette for dark themes.
 $mat-dark-theme-background: (
@@ -144,7 +144,7 @@ $mat-dark-theme-background: (
 );
 
 // Compute font config
-@include mat.core($fontConfig);
+@include mat-core($fontConfig);
 
 // Theme Config
 
@@ -191,48 +191,34 @@ $mat-accent: (
 $theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
 
 body {
-  --warn-color: #e1b210;
-  --warn-lighter-color: #f6e8b7;
-  --warn-darker-color: #d59909;
-  --text-warn-color: #{$dark-primary-text};
+  --warn-color: #ff2323;
+  --warn-lighter-color: #ffbdbd;
+  --warn-darker-color: #ff1515;
+  --text-warn-color: #{$light-primary-text};
   --text-warn-lighter-color: #{$dark-primary-text};
-  --text-warn-darker-color: #{$dark-primary-text};
+  --text-warn-darker-color: #{$light-primary-text};
 }
 $mat-warn: (
-  main: #e1b210,
-  lighter: #f6e8b7,
-  darker: #d59909,
-  200: #e1b210, // For slide toggle,
+  main: #ff2323,
+  lighter: #ffbdbd,
+  darker: #ff1515,
+  200: #ff2323, // For slide toggle,
   contrast : (
-    main: $dark-primary-text,
+    main: $light-primary-text,
     lighter: $dark-primary-text,
-    darker: $dark-primary-text,
+    darker: $light-primary-text,
   )
 );
 $theme-warn: mat.define-palette($mat-warn, main, lighter, darker);;
 
-$theme: (
-  primary: $theme-primary,
-  accent: $theme-accent,
-  warn: $theme-warn,
-  is-dark: false,
-  foreground: $mat-light-theme-foreground,
-  background: $mat-light-theme-background,
-);
-$altTheme: (
-  primary: $theme-primary,
-  accent: $theme-accent,
-  warn: $theme-warn,
-  is-dark: true,
-  foreground: $mat-dark-theme-foreground,
-  background: $mat-dark-theme-background,
-);
+$theme: mat.define-light-theme($theme-primary, $theme-accent, $theme-warn);
+$altTheme: mat.define-dark-theme($theme-primary, $theme-accent, $theme-warn);
 
 // Theme Init
-@include mat.all-component-themes($theme);
+@include angular-material-theme($theme);
 
 .theme-alternate {
-  @include mat.all-component-themes($altTheme);
+  @include angular-material-theme($altTheme);
 }
 
 // Specific component overrides, pieces that are not in line with the general theming
@@ -254,6 +240,6 @@ $altTheme: (
   font-size: 24px;
   font-family: 'Material Icons', 'Material Icons';
   .mat-badge-content {
-    font-family: 'Lato';
+    font-family: 'Roboto';
   }
 }

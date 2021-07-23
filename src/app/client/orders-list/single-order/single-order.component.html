@@ -1,39 +1,99 @@
-<div class="row" *ngIf="currentUser.role == '3'" id="client">
-  <h1>Order</h1>
-  <div class="row">
-    <div class="col col-sm-4">
-      <h2>Client</h2>
-      <p>{{user.firstName}} {{user.lastName}}</p>
+<div *ngIf="currentUser.role == '3'" id="client" class="content">
+  <h1>Order - {{order.orderNumber}}</h1>
+  <div fxLayout="row wrap" fxLayoutGap="15px grid" fxLayoutAlign="center">
+    <div fxFlex="50%" fxFlex.sm="100%" fxFlex.xs="100%">
+      <mat-card>
+        <mat-card-header fxLayoutAlign="center">
+          <mat-card-title>
+            <h2>Your informations</h2>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="row wrap" fxLayoutGap="5px" >
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Name : </p>
+              <p>{{user.firstName}} {{user.lastName}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">E-mail : </p>
+              <p>{{user.email}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Phone number : </p>
+              <p>0{{user.phoneNumber}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="col col-sm-4">
-      <h2>Installateur</h2>
-      <p>{{installateur.firstName}} {{installateur.lastName}}</p>
-      <h2>E-mail</h2>
-      <p>{{installateur.email}}</p>
-      <h2>Phone number</h2>
-      <p>0{{installateur.phoneNumber}}</p>
+
+    <div fxFlex="50%" fxFlex.sm="100%" fxFlex.xs="100%">
+      <mat-card>
+        <mat-card-header fxLayoutAlign="center">
+          <mat-card-title>
+            <h2>Installer</h2>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+         <div fxLayout="row wrap" fxLayoutGap="5px">
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick" >Name : </p>
+              <p>{{installateur.firstName}} {{installateur.lastName}}</p>
+            </div>
+           <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+             <p class="thick">E-mail : </p>
+             <p>{{installateur.email}}</p>
+           </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Phone number : </p>
+              <p>0{{installateur.phoneNumber}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-    <div class="col col-sm-4">
-      <h2>Status</h2>
-      <p>{{order.status}}</p>
+
+    <div fxFlex="50%" fxFlex.lt-md="100%">
+      <mat-card>
+        <mat-card-header fxLayoutAlign="center">
+          <mat-card-title>
+            <h2>Order informations</h2>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="row wrap" fxLayoutGap="5px" >
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Order number : </p>
+              <p>{{order.orderNumber}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Status : </p>
+              <p>{{order.status}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Spot number : </p>
+              <p>{{order.spotNR}}</p>
+            </div>
+           <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+             <p class="thick">Location name : </p>
+             <p>{{orderLocation.name}}</p>
+           </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Address : </p>
+              <p>{{orderLocation.address}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">City : </p>
+              <p>{{orderLocation.city}}</p>
+            </div>
+           <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+             <p class="thick">Post code : </p>
+             <p>{{orderLocation.postCode}}</p>
+           </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-  </div>
-  <div class="row">
-    <h2>Location</h2>
-    <div class="col col-sm-4">
-      <h3>Name</h3>
-      <p>{{orderLocation.name}}</p>
-      <h3>Address</h3>
-      <p>{{orderLocation.address}}</p>
-    </div>
-    <div class="col col-sm-4">
-      <h3>City</h3>
-      <p>{{orderLocation.city}}</p>
-      <h3>Post code</h3>
-      <p>{{orderLocation.postCode}}</p>
-    </div>
-  </div>
-  <div class="row">
     <app-date-time [dateTimes]="order.datesTimesToPick" *ngIf="order.datesTimesToPick != undefined"></app-date-time>
     <div class="container" *ngIf="order.status=='first appointment set'">
       <h2>Date - time of the first meeting</h2>
@@ -45,25 +105,114 @@
       <p>{{order.dateTimePicked.date}} : {{order.dateTimePicked.times[0].startTime}} -
         {{order.dateTimePicked.times[0].endTime}}</p>
     </div>
+    <app-make-payment *ngIf="order.status == 'waiting for payment'" [order]="order"></app-make-payment>
   </div>
 
-  <app-make-payment *ngIf="order.status == 'waiting for payment'" [order]="order"></app-make-payment>
+
+
+  <div fxLayout="row" fxLayoutAlign="space-evenly center">
+
+  </div>
+
+
+  <!--  <h1>Order</h1>
+    <div class="row">
+      <div class="col col-sm-4">
+        <h2>Client</h2>
+        <p>{{user.firstName}} {{user.lastName}}</p>
+      </div>
+      <div class="col col-sm-4">
+        <h2>Installateur</h2>
+        <p>{{installateur.firstName}} {{installateur.lastName}}</p>
+        <h2>E-mail</h2>
+        <p>{{installateur.email}}</p>
+        <h2>Phone number</h2>
+        <p>0{{installateur.phoneNumber}}</p>
+      </div>
+      <div class="col col-sm-4">
+        <h2>Status</h2>
+        <p>{{order.status}}</p>
+      </div>
+    </div>
+    <div class="row">
+      <h2>Location</h2>
+      <div class="col col-sm-4">
+        <h3>Name</h3>
+        <p>{{orderLocation.name}}</p>
+        <h3>Address</h3>
+        <p>{{orderLocation.address}}</p>
+      </div>
+      <div class="col col-sm-4">
+        <h3>City</h3>
+        <p>{{orderLocation.city}}</p>
+        <h3>Post code</h3>
+        <p>{{orderLocation.postCode}}</p>
+      </div>
+    </div>
+    <div class="row">
+
+
+
+    </div>
+    -->
 </div>
 
 <div class="row" *ngIf="currentUser.role == '2'">
   <h1>Order - {{user.firstName}} {{user.lastName}}</h1>
   <div class="row">
     <div class="col col-sm-4">
-      <h2>Client</h2>
-      <p>{{user.firstName}} {{user.lastName}}</p>
-      <h2>E-mail</h2>
-      <p>{{user.email}}</p>
-      <h2>Phone number</h2>
-      <p>0{{user.phoneNumber}}</p>
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Client</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="row">
+            <div class="col-sm-5">
+              <p>Name : </p>
+              <p>E-mail : </p>
+              <p>Phone number : </p>
+              <p>Address : </p>
+              <p>City : </p>
+              <p>Post code : </p>
+            </div>
+            <div class="col">
+              <p>{{user.firstName}} {{user.lastName}}</p>
+              <p>{{user.email}}</p>
+              <p>0{{user.phoneNumber}}</p>
+              <p>{{user.address}}</p>
+              <p>{{user.city}}</p>
+              <p>{{user.postCode}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <!--<h2>Client</h2>
+      <p>Name : {{user.firstName}} {{user.lastName}}</p>
+      <p>E-mail : {{user.email}}</p>
+      <p>Phone number : 0{{user.phoneNumber}}</p>
+      <p>Address : {{user.address}}</p>
+      <p>City : {{user.city}}</p>
+      <p>Post code : {{user.postCode}}</p>-->
     </div>
     <div class="col col-sm-4">
-      <h2>Parking spot number</h2>
-      <p>{{order.spotNR}}</p>
+      <h2>Location</h2>
+    </div>
+    <div class="col col-sm-4">
+      <div *ngIf="!toggle">
+        <h2>Spot number</h2>
+        <p>{{order.spotNR}}</p>
+        <button mat-flat-button color="primary" (click)="toggleForm()" *ngIf="order.status=='first appointment set'">Change spot number</button>
+      </div>
+      <form [formGroup]="spotNRForm" (ngSubmit)="onNewSpotNRSubmit()" *ngIf="toggle">
+        <mat-form-field>
+          <mat-label>Spot number</mat-label>
+          <input matInput type="number" placeholder="{{order.spotNR}}" formControlName="spotNR">
+          <mat-error *ngIf="nrIsSubmitted && spotNRForm.controls['spotNR'].hasError('required')">
+            You need to select a <strong>new</strong> spot number
+          </mat-error>
+        </mat-form-field>
+        <button mat-flat-button color="primary" type="submit">Change spot number</button>
+      </form>
       <h2>Status</h2>
       <p>{{order.status}}</p>
     </div>
@@ -71,11 +220,12 @@
   <div class="row container-fluid" *ngIf="order.status == 'new'">
     <form [formGroup]="dateTimeForm" (ngSubmit)="onDateSubmit()">
       <div class="col col-sm-4">
-        <mat-form-field >
+        <mat-form-field>
           <mat-label>Date / Time</mat-label>
           <mat-select formControlName="dateTimes" id="dateTimes">
-            <mat-optgroup *ngFor="let date of order.datesTimesToPick" [label]="date.date" >
-              <mat-option *ngFor="let time of date.times; let i = index" (onSelectionChange)="optionSelected($event)" [value]="date.times[i]" >
+            <mat-optgroup *ngFor="let date of order.datesTimesToPick" [label]="date.date">
+              <mat-option *ngFor="let time of date.times; let i = index" (onSelectionChange)="optionSelected($event)"
+                          [value]="date.times[i]">
                 {{time.startTime}} - {{time.endTime}}
               </mat-option>
             </mat-optgroup>
@@ -87,36 +237,38 @@
       </div>
     </form>
   </div>
-<div *ngIf="order.status == 'first appointment set'">
-  <form [formGroup]="dateForm" (ngSubmit)="sendDateForSecondAppointment()">
-    <div class="form-group">
-      <mat-form-field appearance="fill">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filters" [errorStateMatcher]="matcher" formControlName="date">
-        <mat-error *ngIf="dateForm.controls['date'].hasError('required')">
-          A date is <strong>required</strong>
-        </mat-error>
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <mat-selection-list #timesSelected
-                          [multiple]="false"
-                          formControlName="time">
-        <mat-list-option *ngFor="let time of times" [value]="time"
-                         style="display:inline-block; width:50%;">
-          <p matLine>{{time.startTime}} <br>
-            {{time.endTime}}</p>
-        </mat-list-option>
-        <mat-error *ngIf="dateForm.controls['time'].hasError('required') && isSubmitted">
-          A time is <strong>required</strong>
-        </mat-error>
-      </mat-selection-list>
-    </div>
-    <button mat-flat-button color="primary" type="submit">
-      Confirm date for second appointment
-    </button>
-  </form>
-</div>
+  <div *ngIf="order.status == 'first appointment set'">
+    <form [formGroup]="dateForm" (ngSubmit)="sendDateForSecondAppointment()">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <mat-label>Choose a date</mat-label>
+          <input matInput [matDatepicker]="picker" [matDatepickerFilter]="filters" [errorStateMatcher]="matcher"
+                 formControlName="date">
+          <mat-error *ngIf="dateForm.controls['date'].hasError('required')">
+            A date is <strong>required</strong>
+          </mat-error>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-selection-list #timesSelected
+                            [multiple]="false"
+                            formControlName="time">
+          <mat-list-option *ngFor="let time of times" [value]="time"
+                           style="display:inline-block; width:50%;">
+            <p matLine>{{time.startTime}} <br>
+              {{time.endTime}}</p>
+          </mat-list-option>
+          <mat-error *ngIf="dateForm.controls['time'].hasError('required') && isSubmitted">
+            A time is <strong>required</strong>
+          </mat-error>
+        </mat-selection-list>
+      </div>
+      <button mat-flat-button color="primary" type="submit">
+        Confirm date for second appointment
+      </button>
+    </form>
+  </div>
   <button mat-flat-button color="primary" *ngIf="order.status == 'second appointment set'"
-          (click)="setPaymentStatus()">Installation complete</button>
+          (click)="setPaymentStatus()">Installation complete
+  </button>
 </div>

@@ -32,6 +32,9 @@ export class SingleOrderComponent implements OnInit {
   dateForm: FormGroup;
   isSubmitted = false;
   matcher = new MyErrorStateMatcher(this.isSubmitted);
+  spotNRForm: FormGroup;
+  nrIsSubmitted=false;
+  toggle=false;
   times = [{
     value: 1,
     startTime: '08:00',
@@ -77,14 +80,11 @@ export class SingleOrderComponent implements OnInit {
               private datePipe: DatePipe) { }
 
   ngOnInit(): void {
-    this.order = new Order('', '', 0, '', '', '');
+    this.order = new Order('', 0, '', 0, '', '', '');
     const id = this.route.snapshot.params['id'];
     this.orderSrv.getSingleOrder(id).then(
       (order: Order) => {
         this.order = order;
-        console.log('datesTime:'+order.datesTimesToPick);
-        console.log(order.dateTimePicked);
-        console.log(this.order.datesTimesToPick);
         this.userSrv.getUserByIdOnInit(this.order.installeurID).then(
           (user: User) => {
             this.installateur = user;
@@ -98,7 +98,6 @@ export class SingleOrderComponent implements OnInit {
         this.locationSrv.getSingleLocation(this.order.locationID).then(
           (location: Location) => {
             this.orderLocation = location;
-            console.log(this.orderLocation);
           }
         );
       }
@@ -119,10 +118,12 @@ export class SingleOrderComponent implements OnInit {
       date: ['', Validators.required],
       time: ['', Validators.required]
     });
+    this.spotNRForm = this.formBuilder.group({
+      spotNR: ['', Validators.required]
+    });
   }
 
     onDateSubmit(){
-    console.log(this.dateSelected);
     this.order.dateTimePicked = this.dateSelected;
     this.order.status = "first appointment set"
     this.orderSrv.updateOrder(this.order);
@@ -169,6 +170,24 @@ export class SingleOrderComponent implements OnInit {
     const day = (d || new Date()).getDay();
     const date = (d || new Date());
     return day !== 0 && day !== 6 && date > new Date();
+  }
+
+  onNewSpotNRSubmit(){
+    if(this.spotNRForm.invalid){
+      this.nrIsSubmitted = true;
+      return;
+    }
+
+    const spotNR = this.spotNRForm.get('spotNR').value;
+    this.order.spotNR = spotNR;
+    this.orderSrv.updateOrder(this.order);
+    this.spotNRForm.reset();
+    this.nrIsSubmitted = false;
+    this.toggleForm();
+  }
+
+  toggleForm(){
+    this.toggle = !this.toggle;
   }
 
 }

@@ -23,9 +23,9 @@ export class OrdersListComponent implements OnInit, OnDestroy {
     this.ordersSubscription = this.orderService.ordersSubject.subscribe(
       (orders: Order[]) => {
         this.orders = orders;
-        console.log(this.orders);
       }
     );
+    this.orderService.getOrders();
     this.orderService.getOrdersByInstaller();
     this.orderService.emitOrders();
   }
@@ -38,6 +38,7 @@ export class OrdersListComponent implements OnInit, OnDestroy {
     let arrayFiltered = this.orders.filter(element => {
       return element.status == status;
     });
+    this.orderService.emitOrders();
     return arrayFiltered
   }
 
