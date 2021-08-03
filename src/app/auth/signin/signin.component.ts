@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ModalDismissReasons, NgbModal, NgbActiveModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
+import {ModalDismissReasons, NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {Subscription} from "rxjs";
 
 
@@ -38,7 +38,6 @@ export class SigninComponent implements OnInit {
         this.location = false;
       }
     });
-
     this.initForm();
   }
 

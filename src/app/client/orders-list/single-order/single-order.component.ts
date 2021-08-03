@@ -7,8 +7,8 @@ import {AuthService} from "../../../services/auth.service";
 import {UsersService} from "../../../services/users.service";
 import {LocationService} from "../../../services/location.service";
 import {Location} from "../../../models/Location.model";
-import {FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, Validators} from "@angular/forms";
-import {ErrorStateMatcher, MatOptionSelectionChange} from "@angular/material/core";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {MatOptionSelectionChange} from "@angular/material/core";
 import {DateTime} from "../../../models/DateTime.model";
 import {Time} from "../../../models/Time.model";
 import {EmailService} from "../../../services/email.service";
@@ -35,6 +35,7 @@ export class SingleOrderComponent implements OnInit {
   spotNRForm: FormGroup;
   nrIsSubmitted=false;
   toggle=false;
+  dateStringSelected: string;
   times = [{
     value: 1,
     startTime: '08:00',
@@ -131,8 +132,10 @@ export class SingleOrderComponent implements OnInit {
   }
 
   optionSelected(event: MatOptionSelectionChange){
+    this.dateStringSelected = event.source.group.label;
     let timesTMP: Time[] = [];
     timesTMP.push(event.source.value);
+    console.log(event.source.group.label +"/" + timesTMP);
     this.dateSelected = new DateTime(event.source.group.label, timesTMP);
   }
 

@@ -55,7 +55,7 @@
 
     <div fxFlex="50%" fxFlex.lt-md="100%">
       <mat-card>
-        <mat-card-header fxLayoutAlign="center">
+        <mat-card-header fxLayoutAlign="center" fxLayoutGap="10 px">
           <mat-card-title>
             <h2>Order informations</h2>
           </mat-card-title>
@@ -93,68 +93,22 @@
           </div>
         </mat-card-content>
       </mat-card>
-    </div>
-    <app-date-time [dateTimes]="order.datesTimesToPick" *ngIf="order.datesTimesToPick != undefined"></app-date-time>
-    <div class="container" *ngIf="order.status=='first appointment set'">
-      <h2>Date - time of the first meeting</h2>
-      <p>{{order.dateTimePicked.date}} : {{order.dateTimePicked.times[0].startTime}} -
-        {{order.dateTimePicked.times[0].endTime}}</p>
-    </div>
-    <div class="container" *ngIf="order.status=='second appointment set'">
-      <h2>Date - time of the second meeting</h2>
-      <p>{{order.dateTimePicked.date}} : {{order.dateTimePicked.times[0].startTime}} -
-        {{order.dateTimePicked.times[0].endTime}}</p>
-    </div>
-    <app-make-payment *ngIf="order.status == 'waiting for payment'" [order]="order"></app-make-payment>
-  </div>
-
-
-
-  <div fxLayout="row" fxLayoutAlign="space-evenly center">
-
-  </div>
-
-
-  <!--  <h1>Order</h1>
-    <div class="row">
-      <div class="col col-sm-4">
-        <h2>Client</h2>
-        <p>{{user.firstName}} {{user.lastName}}</p>
-      </div>
-      <div class="col col-sm-4">
-        <h2>Installateur</h2>
-        <p>{{installateur.firstName}} {{installateur.lastName}}</p>
-        <h2>E-mail</h2>
-        <p>{{installateur.email}}</p>
-        <h2>Phone number</h2>
-        <p>0{{installateur.phoneNumber}}</p>
-      </div>
-      <div class="col col-sm-4">
-        <h2>Status</h2>
-        <p>{{order.status}}</p>
+      <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="10px grid">
+        <app-date-time [dateTimes]="order.datesTimesToPick" *ngIf="order.datesTimesToPick != undefined" fxFlex fxLayoutGap="10px"></app-date-time>
+        <div class="container" *ngIf="order.status=='first appointment set'">
+          <h2>Date - time of the first meeting</h2>
+          <p>{{order.dateTimePicked.date}} : {{order.dateTimePicked.times[0].startTime}} -
+            {{order.dateTimePicked.times[0].endTime}}</p>
+        </div>
+        <div class="container" *ngIf="order.status=='second appointment set'">
+          <h2>Date - time of the second meeting</h2>
+          <p>{{order.dateTimePicked.date}} : {{order.dateTimePicked.times[0].startTime}} -
+            {{order.dateTimePicked.times[0].endTime}}</p>
+        </div>
+        <app-make-payment *ngIf="order.status == 'waiting for payment'" [order]="order"></app-make-payment>
       </div>
     </div>
-    <div class="row">
-      <h2>Location</h2>
-      <div class="col col-sm-4">
-        <h3>Name</h3>
-        <p>{{orderLocation.name}}</p>
-        <h3>Address</h3>
-        <p>{{orderLocation.address}}</p>
-      </div>
-      <div class="col col-sm-4">
-        <h3>City</h3>
-        <p>{{orderLocation.city}}</p>
-        <h3>Post code</h3>
-        <p>{{orderLocation.postCode}}</p>
-      </div>
     </div>
-    <div class="row">
-
-
-
-    </div>
-    -->
 </div>
 
 <div class="row" *ngIf="currentUser.role == '2'">
@@ -186,13 +140,6 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <!--<h2>Client</h2>
-      <p>Name : {{user.firstName}} {{user.lastName}}</p>
-      <p>E-mail : {{user.email}}</p>
-      <p>Phone number : 0{{user.phoneNumber}}</p>
-      <p>Address : {{user.address}}</p>
-      <p>City : {{user.city}}</p>
-      <p>Post code : {{user.postCode}}</p>-->
     </div>
     <div class="col col-sm-4">
       <h2>Location</h2>
@@ -217,9 +164,11 @@
       <p>{{order.status}}</p>
     </div>
   </div>
-  <div class="row container-fluid" *ngIf="order.status == 'new'">
+  <div class="row container-fluid" *ngIf="order.status == 'new'" style="padding-top: 10px">
     <form [formGroup]="dateTimeForm" (ngSubmit)="onDateSubmit()">
       <div class="col col-sm-4">
+        <p>Date : </p>
+        {{dateStringSelected}}
         <mat-form-field>
           <mat-label>Date / Time</mat-label>
           <mat-select formControlName="dateTimes" id="dateTimes">

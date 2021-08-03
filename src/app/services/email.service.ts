@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import emailjs, {EmailJSResponseStatus, init} from "emailjs-com";
+import {Injectable} from '@angular/core';
+import emailjs from "emailjs-com";
 import {User} from "../models/User.model";
 import {Order} from "../models/Order.model";
 

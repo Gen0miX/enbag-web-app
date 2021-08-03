@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFireAuth} from "@angular/fire/auth";
 import {AngularFireDatabase} from "@angular/fire/database";
 import {User} from "../models/User.model";
 import firebase from "firebase";
-import {first, tap} from "rxjs/operators";
+import {first} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -100,14 +100,6 @@ export class AuthService {
         console.log('User not logged in');
       }
   }
-
-/*  getCurrentUserIDOnInit(): string {
-   this.auth.authState.subscribe(user => {
-     if(user) {return user.uid}
-     return ('NULL');
-   });
-   return ('NULL')
-  }*/
 
   getCurrentUserID(): string {
     return this.userId;

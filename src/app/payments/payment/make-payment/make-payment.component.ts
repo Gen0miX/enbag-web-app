@@ -1,6 +1,4 @@
-import {Component, OnInit, HostListener, Input} from '@angular/core';
-import {AuthService} from "../../../services/auth.service";
-import {User} from "../../../models/User.model";
+import {Component, Input, OnInit} from '@angular/core';
 import {OrdersService} from "../../../services/orders.service";
 import {Order} from "../../../models/Order.model";
 

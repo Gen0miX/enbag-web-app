@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import firebase from "firebase";
+
 
 import {UsersService} from "../../services/users.service";
 import {User} from "../../models/User.model";
 import {Router} from "@angular/router";
 import {Order} from "../../models/Order.model";
-import {Subscription} from "rxjs";
-import {OrdersService} from "../../services/orders.service";
 
 @Component({
   selector: 'app-initiate-login',

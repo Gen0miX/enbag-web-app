@@ -1,13 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {UsersService} from "../../services/users.service";
 import {OrdersService} from "../../services/orders.service";
 import {Order} from "../../models/Order.model";
 import {Router} from "@angular/router";
 import {EmailService} from "../../services/email.service";
-import {User} from "../../models/User.model";
 import {AngularFireAuth} from "@angular/fire/auth";
-import {AngularFireModule} from "@angular/fire";
 import {Subscription} from "rxjs";
 
 @Component({

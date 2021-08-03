@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService} from "../../services/auth.service";
-import {ActivatedRoute, Router, ParamMap} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Subscription} from "rxjs";
 import {User} from "../../models/User.model";
 import {Location} from "@angular/common";
@@ -24,23 +24,26 @@ export class SignupComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private route: ActivatedRoute,
-              private _location: Location) { }
+              private _location: Location) {
+  }
 
   ngOnInit(): void {
     this.routeSub = this.route.params.subscribe(params => {
       const location = params['location'];
-      this.location = location ;
+      this.location = location;
     });
 
     this.initForm();
   }
 
-  get f() {return this.signUpForm.controls;}
+  get f() {
+    return this.signUpForm.controls;
+  }
 
-  initForm(){
+  initForm() {
     this.signUpForm = this.formBuilder.group({
       lastName: ['', Validators.required],
-      firstName:['', Validators.required],
+      firstName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
       passwordConf: ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]],
@@ -51,7 +54,7 @@ export class SignupComponent implements OnInit {
     }, {validator: this.MustMatch('password', 'passwordConf')});
   }
 
-  onSubmit(){
+  onSubmit() {
     const lastName = this.signUpForm.get('lastName').value;
     const firstName = this.signUpForm.get('firstName').value;
     const email = this.signUpForm.get('email').value;
@@ -63,12 +66,12 @@ export class SignupComponent implements OnInit {
 
     this.submitted = true;
 
-    if(this.signUpForm.invalid){
+    if (this.signUpForm.invalid) {
       return;
     }
 
-    this.newUser = new User('',firstName, lastName, email, address,
-                            postCode, city, phoneNumber, this.location.toString(), '3');
+    this.newUser = new User('', firstName, lastName, email, address,
+      postCode, city, phoneNumber, this.location.toString(), '3');
 
     this.authService.createNewUser(this.newUser, password).then(
       () => {
@@ -83,28 +86,26 @@ export class SignupComponent implements OnInit {
         this.router.navigate(['/auth', 'wait']);
       },
       (error) => {
-        this.errorMessage = error ;
+        this.errorMessage = error;
       }
     );
   }
 
-  cancelClick(){
+  cancelClick() {
     this._location.back();
   }
 
-MustMatch(controlName: string, matchingControlName: string) {
+  MustMatch(controlName: string, matchingControlName: string) {
     return (formGroup: FormGroup) => {
       const control = formGroup.controls[controlName];
       const matchingControl = formGroup.controls[matchingControlName];
 
       if (matchingControl.errors && !matchingControl.errors.mustMatch) {
-        // return if another validator has already found an error on the matchingControl
         return;
       }
 
-      // set error on matchingControl if validation fails
       if (control.value !== matchingControl.value) {
-        matchingControl.setErrors({ mustMatch: true });
+        matchingControl.setErrors({mustMatch: true});
       } else {
         matchingControl.setErrors(null);
       }

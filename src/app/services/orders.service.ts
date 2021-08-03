@@ -1,10 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from "@angular/fire/database";
 import {Order} from "../models/Order.model";
 import {Subject} from "rxjs";
-import {AngularFireAuth} from "@angular/fire/auth";
 import {AuthService} from "./auth.service";
-import {DateTime} from "../models/DateTime.model";
 
 @Injectable({
   providedIn: 'root'
@@ -115,6 +113,7 @@ export class OrdersService {
   }
 
   removeOrder(order: Order){
+    this.db.database.ref('/orders/'+order.orderID).remove();
     const orderIndexToRemove = this.orders.findIndex(
       (orderEl) => {
         if(orderEl === order) {
@@ -124,13 +123,9 @@ export class OrdersService {
       }
     );
     this.orders.splice(orderIndexToRemove, 1);
-    this.saveOrders();
     this.emitOrders();
   }
 
-  getLastOrderCreatedKey(): string{
-    return this.myOrderKey;
-  }
 
   updateOrder(order: Order) {
     this.db.database.ref('/orders/'+order.orderID).set({

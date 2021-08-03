@@ -1,22 +1,11 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {
-  Form,
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  FormGroupDirective,
-  NgForm,
-  Validators
-} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Order} from "../../../models/Order.model";
 import {OrdersService} from "../../../services/orders.service";
-import {NgbDateStruct, NgbModule, NgbDate} from "@ng-bootstrap/ng-bootstrap";
 import {DatePipe} from "@angular/common";
 import {MatListOption} from "@angular/material/list";
-import {DateAdapter, ErrorStateMatcher} from "@angular/material/core";
+import {DateAdapter} from "@angular/material/core";
 import {DateTime} from "../../../models/DateTime.model";
-import firebase from "firebase";
 import {User} from "../../../models/User.model";
 import {UsersService} from "../../../services/users.service";
 import {AuthService} from "../../../services/auth.service";
@@ -33,13 +22,11 @@ import {EmailService} from "../../../services/email.service";
 })
 export class NewOrderComponent implements OnInit {
 
-  @ViewChild('NgbdDatepicker') d: NgbDateStruct;
-
   orderForm: FormGroup;
   dateForm: FormGroup;
   timesSelectedForm: MatListOption[];
   dateSelected: string;
-  orderNumber: number = 10000;
+  orderNumber: number ;
   dateTimes: DateTime [] = new Array();
   isTimeSelected: boolean = true;
   submittedF = false;

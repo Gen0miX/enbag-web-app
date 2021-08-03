@@ -38,7 +38,6 @@ export class OrdersListComponent implements OnInit, OnDestroy {
     let arrayFiltered = this.orders.filter(element => {
       return element.status == status;
     });
-    this.orderService.emitOrders();
     return arrayFiltered
   }
 

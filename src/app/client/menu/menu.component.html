@@ -23,7 +23,8 @@
               </mat-list>
             </div>
             <div fxLayout="row" fxFlex="100%" fxLayoutAlign="center">
-              <button mat-flat-button color="primary" (click)="onNewOrder()" *ngIf="!isOrderCreated()">Schedule first meeting</button>
+              <button mat-flat-button color="primary" (click)="onNewOrder()" *ngIf="!isOrderCreated()">
+                Schedule first meeting</button>
               <button mat-flat-button color="primary" (click)="onOrderCreated(order.orderID)"
                       *ngFor="let order of orders">Go to order</button>
             </div>

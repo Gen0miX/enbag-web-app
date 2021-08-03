@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import {AngularFireAuth} from "@angular/fire/auth";
+import {Injectable} from '@angular/core';
 import {AngularFireDatabase} from "@angular/fire/database";
 import {User} from "../models/User.model";
 import {Subject} from "rxjs";
@@ -20,13 +19,6 @@ export class UsersService {
 
   emitUsers(){
     this.usersSubject.next(this.users);
-  }
-
-  getUsers() {
-    var ref = this.db.database.ref('/users');
-    ref.orderByChild("email").equalTo('j0naas_14@hotmail.com').on('value', (data) => {
-      this.users = data.val() ? data.val() : [];
-    });
   }
 
   getInstallateurs() {
