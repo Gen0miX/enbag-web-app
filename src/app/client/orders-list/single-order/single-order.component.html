@@ -113,58 +113,106 @@
 
 <div class="row" *ngIf="currentUser.role == '2'">
   <h1>Order - {{user.firstName}} {{user.lastName}}</h1>
-  <div class="row">
-    <div class="col col-sm-4">
+  <div fxLayout="row wrap" fxLayoutGap="15px grid" fxLayoutAlign="center">
+    <div fxFlex="50%" fxFlex.sm="100%" fxFlex.xs="100%">
       <mat-card>
-        <mat-card-header>
-          <mat-card-title>Client</mat-card-title>
+        <mat-card-header fxLayoutAlign="center">
+          <mat-card-title>
+           <h2>Client</h2>
+          </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="row">
-            <div class="col-sm-5">
-              <p>Name : </p>
-              <p>E-mail : </p>
-              <p>Phone number : </p>
-              <p>Address : </p>
-              <p>City : </p>
-              <p>Post code : </p>
-            </div>
-            <div class="col">
+          <div fxLayout="row wrap" fxLayoutGap="5px">
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Name : </p>
               <p>{{user.firstName}} {{user.lastName}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">E-mail : </p>
               <p>{{user.email}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Phone number : </p>
               <p>0{{user.phoneNumber}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Address : </p>
               <p>{{user.address}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">City : </p>
               <p>{{user.city}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Post code : </p>
               <p>{{user.postCode}}</p>
             </div>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-    <div class="col col-sm-4">
-      <h2>Location</h2>
-    </div>
-    <div class="col col-sm-4">
-      <div *ngIf="!toggle">
-        <h2>Spot number</h2>
-        <p>{{order.spotNR}}</p>
-        <button mat-flat-button color="primary" (click)="toggleForm()" *ngIf="order.status=='first appointment set'">Change spot number</button>
-      </div>
-      <form [formGroup]="spotNRForm" (ngSubmit)="onNewSpotNRSubmit()" *ngIf="toggle">
-        <mat-form-field>
-          <mat-label>Spot number</mat-label>
-          <input matInput type="number" placeholder="{{order.spotNR}}" formControlName="spotNR">
-          <mat-error *ngIf="nrIsSubmitted && spotNRForm.controls['spotNR'].hasError('required')">
-            You need to select a <strong>new</strong> spot number
-          </mat-error>
-        </mat-form-field>
-        <button mat-flat-button color="primary" type="submit">Change spot number</button>
-      </form>
-      <h2>Status</h2>
-      <p>{{order.status}}</p>
+
+    <div fxFlex="50%" fxFlex.lt-md="100%">
+      <mat-card>
+        <mat-card-header fxLayoutAlign="center" fxLayoutGap="10 px">
+          <mat-card-title>
+            <h2>Order informations</h2>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div fxLayout="row wrap" fxLayoutGap="5px" >
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Order number : </p>
+              <p>{{order.orderNumber}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Status : </p>
+              <p>{{order.status}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center"
+                 *ngIf="!toggle">
+              <p class="thick">Spot number : </p>
+              <p>{{order.spotNR}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <form [formGroup]="spotNRForm" (ngSubmit)="onNewSpotNRSubmit()" *ngIf="toggle">
+                <mat-form-field>
+                  <mat-label>Spot number</mat-label>
+                  <input matInput type="number" placeholder="{{order.spotNR}}" formControlName="spotNR">
+                  <mat-error *ngIf="nrIsSubmitted && spotNRForm.controls['spotNR'].hasError('required')">
+                    You need to select a <strong>new</strong> spot number
+                  </mat-error>
+                </mat-form-field>
+                <button mat-flat-button color="primary" type="submit">Change spot number</button>
+              </form>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center"
+                 *ngIf="order.status=='first appointment set' && !toggle">
+              <button mat-flat-button color="primary" (click)="toggleForm()">Change spot number</button>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Location name : </p>
+              <p>{{orderLocation.name}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Address : </p>
+              <p>{{orderLocation.address}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">City : </p>
+              <p>{{orderLocation.city}}</p>
+            </div>
+            <div fxLayout="row" fxFlex="100%" fxLayoutGap="5px" fxLayoutAlign="center">
+              <p class="thick">Post code : </p>
+              <p>{{orderLocation.postCode}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
   </div>
-  <div class="row container-fluid" *ngIf="order.status == 'new'" style="padding-top: 10px">
+
+  <div class="row container-fluid" fxFlex="100%" fxLayoutAlign="center" *ngIf="order.status == 'new'" style="padding-top: 10px">
     <form [formGroup]="dateTimeForm" (ngSubmit)="onDateSubmit()">
       <div class="col col-sm-4">
         <p>Date : </p>
